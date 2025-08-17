@@ -139,7 +139,6 @@ export function ProductManager() {
                     <div className="flex items-center gap-4 text-sm text-gray-500">
                       <span>Category: {product.category}</span>
                       <span>Price: {formatPrice(product.price)}</span>
-                      <span>Customers: {product.customers}</span>
                     </div>
                   </div>
                   <div className="flex gap-2 ml-4">

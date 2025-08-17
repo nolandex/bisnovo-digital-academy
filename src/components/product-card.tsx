@@ -9,7 +9,6 @@ export interface Product {
   name: string;
   description: string;
   category: string;
-  customers: number;
   price: number;
   image_url?: string;
   is_digital?: boolean;
@@ -22,12 +21,6 @@ interface ProductCardProps {
 }
 
 export function ProductCard({ product }: ProductCardProps) {
-  const formatCustomers = (customers: number) => {
-    if (customers >= 1000) {
-      return `${(customers / 1000).toFixed(1)}k`;
-    }
-    return customers.toString();
-  };
 
 
   return (
@@ -60,22 +53,16 @@ export function ProductCard({ product }: ProductCardProps) {
             {product.category}
           </p>
           
-          {/* Metadata Row */}
-          <div className="flex items-center gap-1 text-[0.6rem] mt-auto">
-            <div className="flex items-center gap-0.5">
-              <span className="text-gray-600">{formatCustomers(product.customers)} pelanggan</span>
-            </div>
-            <span className="text-gray-400">•</span>
-            <div className="flex items-center gap-0.5">
-              <span className="text-gray-600">
-                {new Intl.NumberFormat('id-ID', {
-                  style: 'currency',
-                  currency: 'IDR',
-                  minimumFractionDigits: 0,
-                  maximumFractionDigits: 0
-                }).format(product.price)}
-              </span>
-            </div>
+          {/* Price Row */}
+          <div className="flex items-center text-[0.6rem] mt-auto">
+            <span className="text-gray-600 font-semibold">
+              {new Intl.NumberFormat('id-ID', {
+                style: 'currency',
+                currency: 'IDR',
+                minimumFractionDigits: 0,
+                maximumFractionDigits: 0
+              }).format(product.price)}
+            </span>
           </div>
         </div>
       </div>

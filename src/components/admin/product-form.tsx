@@ -33,7 +33,6 @@ export function ProductForm({ product, onSuccess, onCancel }: ProductFormProps) 
     description: product?.description || "",
     category: product?.category || "",
     price: product?.price || 0,
-    customers: product?.customers || 0,
     is_digital: product?.is_digital || false,
   });
 
@@ -199,31 +198,18 @@ export function ProductForm({ product, onSuccess, onCancel }: ProductFormProps) 
           </Select>
         </div>
 
-        {/* Price & Customers */}
-        <div className="grid grid-cols-2 gap-4">
-          <div>
-            <Label htmlFor="price">Price (IDR) *</Label>
-            <Input
-              id="price"
-              type="number"
-              required
-              min="0"
-              value={formData.price}
-              onChange={(e) => setFormData({...formData, price: Number(e.target.value)})}
-              placeholder="0"
-            />
-          </div>
-
-          <div>
-            <Label htmlFor="customers">Customers</Label>
-            <Input
-              id="customers"
-              type="number"
-              min="0"
-              value={formData.customers}
-              onChange={(e) => setFormData({...formData, customers: Number(e.target.value)})}
-            />
-          </div>
+        {/* Price */}
+        <div>
+          <Label htmlFor="price">Price (IDR) *</Label>
+          <Input
+            id="price"
+            type="number"
+            required
+            min="0"
+            value={formData.price}
+            onChange={(e) => setFormData({...formData, price: Number(e.target.value)})}
+            placeholder="0"
+          />
         </div>
 
         {/* Digital Product */}
