@@ -1,34 +1,16 @@
 import { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
-import { ArrowLeft, CheckCircle, Download, FileText, Monitor, ShoppingCart } from "lucide-react";
+import { ArrowLeft, CheckCircle, ShoppingCart } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { LevelBadge } from "@/components/ui/level-badge";
 import { supabase } from "@/integrations/supabase/client";
 import { Product } from "@/components/product-card";
 import { QrisPaymentPopup } from "@/components/qris-payment-popup";
 
-interface ProductDetail {
-  id: string;
-  detail_number: number;
-  title: string;
-  description: string;
-}
-
-interface ProductFeature {
-  id: string;
-  feature_number: number;
-  title: string;
-  type: string;
-  quantity: number;
-}
 
 const ProductDetail = () => {
   const { id } = useParams();
   const [product, setProduct] = useState<Product | null>(null);
-  const [details, setDetails] = useState<ProductDetail[]>([]);
-  const [features, setFeatures] = useState<{ [key: string]: ProductFeature[] }>({});
   const [loading, setLoading] = useState(true);
   const [showQrisPopup, setShowQrisPopup] = useState(false);
 
@@ -49,36 +31,6 @@ const ProductDetail = () => {
         if (productError) throw productError;
         setProduct(productData);
 
-        // Fetch product details
-        const { data: detailsData, error: detailsError } = await supabase
-          .from('product_details')
-          .select('*')
-          .eq('product_id', id)
-          .order('detail_number');
-
-        if (detailsError) throw detailsError;
-        setDetails(detailsData || []);
-
-        // Fetch features for each detail
-        if (detailsData && detailsData.length > 0) {
-          const featuresPromises = detailsData.map(async (detail) => {
-            const { data: featuresData } = await supabase
-              .from('product_features')
-              .select('*')
-              .eq('detail_id', detail.id)
-              .order('feature_number');
-            
-            return { detailId: detail.id, features: featuresData || [] };
-          });
-
-          const featuresResults = await Promise.all(featuresPromises);
-          const featuresMap = featuresResults.reduce((acc, { detailId, features }) => {
-            acc[detailId] = features;
-            return acc;
-          }, {} as { [key: string]: ProductFeature[] });
-          
-          setFeatures(featuresMap);
-        }
       } catch (error) {
         console.error('Error fetching product details:', error);
       } finally {
@@ -173,31 +125,31 @@ const ProductDetail = () => {
         <div className="mb-6">
           <h2 className="text-lg font-semibold mb-3">Yang Anda Dapatkan</h2>
           <div className="space-y-2">
-            {Object.values(features).flat().map((feature, index) => (
-              <div key={index} className="flex items-center gap-3">
-                <CheckCircle className="h-4 w-4 text-green-600" />
-                <span className="text-sm">{feature.title}</span>
-                {feature.quantity > 1 && (
-                  <span className="text-xs text-muted-foreground">({feature.quantity}x)</span>
-                )}
-              </div>
-            ))}
+            {product.features_text ? (
+              product.features_text.split('\n').filter(line => line.trim()).map((feature, index) => (
+                <div key={index} className="flex items-center gap-3">
+                  <CheckCircle className="h-4 w-4 text-green-600" />
+                  <span className="text-sm">{feature.trim()}</span>
+                </div>
+              ))
+            ) : (
+              <p className="text-muted-foreground text-sm">Tidak ada informasi fitur</p>
+            )}
           </div>
         </div>
 
         {/* How It Works */}
-        {details.length > 0 && (
+        {product.how_it_works_text && (
           <div className="mb-6">
             <h2 className="text-lg font-semibold mb-3">Cara Kerja</h2>
             <div className="space-y-2">
-              {details.map((detail, index) => (
-                <div key={detail.id} className="flex gap-3">
+              {product.how_it_works_text.split('\n').filter(line => line.trim()).map((step, index) => (
+                <div key={index} className="flex gap-3">
                   <div className="flex-shrink-0 w-6 h-6 bg-primary text-primary-foreground rounded-full flex items-center justify-center text-xs font-medium">
                     {index + 1}
                   </div>
                   <div>
-                    <h3 className="font-medium text-sm">{detail.title}</h3>
-                    <p className="text-muted-foreground text-xs">{detail.description}</p>
+                    <p className="text-sm">{step.trim()}</p>
                   </div>
                 </div>
               ))}

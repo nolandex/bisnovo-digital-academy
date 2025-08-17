@@ -3,16 +3,13 @@ import { supabase } from "@/integrations/supabase/client";
 import { Product } from "@/components/product-card";
 import { Button } from "@/components/ui/button";
 import { ProductForm } from "./product-form";
-import { ProductDetailsManager } from "./product-details-manager";
-import { ProductFeaturesManager } from "./product-features-manager";
-import { Plus, Edit, Trash2, ChevronDown, ChevronRight } from "lucide-react";
+import { Plus, Edit, Trash2 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
 export function ProductManager() {
   const [products, setProducts] = useState<Product[]>([]);
   const [isFormOpen, setIsFormOpen] = useState(false);
   const [editingProduct, setEditingProduct] = useState<Product | null>(null);
-  const [expandedProduct, setExpandedProduct] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const { toast } = useToast();
 
@@ -148,13 +145,6 @@ export function ProductManager() {
                     <Button
                       variant="outline"
                       size="sm"
-                      onClick={() => setExpandedProduct(expandedProduct === product.id ? null : product.id)}
-                    >
-                      {expandedProduct === product.id ? <ChevronDown className="h-4 w-4" /> : <ChevronRight className="h-4 w-4" />}
-                    </Button>
-                    <Button
-                      variant="outline"
-                      size="sm"
                       onClick={() => {
                         setEditingProduct(product);
                         setIsFormOpen(true);
@@ -172,14 +162,6 @@ export function ProductManager() {
                     </Button>
                   </div>
                 </div>
-                
-                {/* Expanded Details */}
-                {expandedProduct === product.id && (
-                  <div className="mt-6 pt-4 border-t space-y-6">
-                    <ProductFeaturesManager productId={product.id} />
-                    <ProductDetailsManager productId={product.id} />
-                  </div>
-                )}
               </div>
             ))}
           </div>
