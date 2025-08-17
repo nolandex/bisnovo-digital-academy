@@ -6,129 +6,144 @@
 
 @layer base {
   :root {
-    /* New color system matching user specifications */
-    --background: 210 20% 98%; /* #F9FAFB */
-    --foreground: 220 39% 11%; /* #1F2937 */
-    
-    /* Card colors */
+    /* Background Colors */
+    --background: 210 40% 98%; /* #F9FAFB */
+    --foreground: 215 25% 27%; /* #1F2937 */
+
+    /* Card Colors */
     --card: 0 0% 100%; /* #FFFFFF */
-    --card-foreground: 220 39% 11%; /* #1F2937 */
-    
-    /* Text colors */
-    --text-primary: 220 39% 11%; /* #1F2937 */
-    --text-secondary: 215 28% 47%; /* #6B7280 */
-    
-    /* Blue accent colors */
-    --blue-primary: 221 83% 53%; /* #2563EB */
-    --blue-light: 213 93% 68%; /* #3B82F6 */
-    
-    /* Yellow star rating */
-    --yellow-star: 32 95% 44%; /* #F59E0B */
-    
-    /* Level badge colors */
-    --easy: 158 64% 52%; /* #10B981 - green */
-    --easy-foreground: 0 0% 100%;
-    --medium: 32 95% 44%; /* #F59E0B - yellow */
-    --medium-foreground: 0 0% 100%;
-    --hard: 0 84% 60%; /* #EF4444 - red */
-    --hard-foreground: 0 0% 100%;
+    --card-foreground: 215 25% 27%; /* #1F2937 */
 
-    /* Bisnovo brand colors (updated) */
-    --bisnovo-primary: 221 83% 53%; /* #2563EB */
-    --bisnovo-primary-foreground: 0 0% 100%;
-    --bisnovo-secondary: 210 40% 96%;
-    --bisnovo-secondary-foreground: 220 39% 11%;
+    /* Popover Colors */  
+    --popover: 0 0% 100%; /* #FFFFFF */
+    --popover-foreground: 215 25% 27%; /* #1F2937 */
 
-    /* UI colors */
-    --popover: 0 0% 100%;
-    --popover-foreground: 220 39% 11%;
+    /* Primary Colors (Main brand color) */
+    --primary: 217 91% 60%; /* #2563EB */
+    --primary-foreground: 0 0% 100%; /* White for contrast */
 
-    --primary: 221 83% 53%; /* Blue primary */
-    --primary-foreground: 0 0% 100%;
+    /* Secondary Colors */
+    --secondary: 210 40% 96%; /* Light gray */
+    --secondary-foreground: 215 25% 27%; /* #1F2937 */
 
-    --secondary: 220 14% 96%; /* Light gray */
-    --secondary-foreground: 215 28% 47%;
+    /* Muted Colors */
+    --muted: 210 40% 96%; /* Light gray */
+    --muted-foreground: 220 9% 46%; /* #6B7280 */
 
-    --muted: 220 14% 96%;
-    --muted-foreground: 215 28% 47%;
+    /* Accent Colors */
+    --accent: 217 91% 60%; /* #2563EB */
+    --accent-foreground: 0 0% 100%; /* White */
 
-    --accent: 32 95% 44%; /* Yellow */
-    --accent-foreground: 0 0% 100%;
+    /* Destructive Colors (Error states) */
+    --destructive: 0 84% 60%; /* Red */
+    --destructive-foreground: 0 0% 100%; /* White */
 
-    --destructive: 0 84% 60%;
-    --destructive-foreground: 0 0% 100%;
+    /* Border Colors */
+    --border: 214 32% 91%; /* Light gray border */
+    --input: 214 32% 91%; /* Input border color */
 
-    --border: 220 13% 91%;
-    --input: 220 13% 91%;
-    --ring: 221 83% 53%;
+    /* Ring Colors (Focus states) */
+    --ring: 217 91% 60%; /* #2563EB */
 
-    --radius: 0.5rem;
-    
+    /* Bisnovo Brand Colors */
+    --bisnovo-primary: 217 91% 60%; /* #2563EB */
+    --bisnovo-secondary: 217 100% 68%; /* #3B82F6 */
+    --bisnovo-accent: 38 92% 50%; /* #F59E0B */
+
+    /* Level Colors */
+    --easy: 158 64% 52%; /* #10B981 */
+    --easy-foreground: 0 0% 100%; /* White */
+    --medium: 38 92% 50%; /* #F59E0B */
+    --medium-foreground: 215 25% 27%; /* #1F2937 */
+    --hard: 0 84% 60%; /* #EF4444 */
+    --hard-foreground: 0 0% 100%; /* White */
+
+    /* Text Colors (Additional) */
+    --text-primary: 215 25% 27%; /* #1F2937 */
+    --text-secondary: 220 9% 46%; /* #6B7280 */
+
+    /* Blue Accent Colors */
+    --blue-primary: 217 91% 60%; /* #2563EB */
+    --blue-light: 217 100% 68%; /* #3B82F6 */
+
+    /* Yellow Star Rating */
+    --yellow-star: 38 92% 50%; /* #F59E0B */
+
     /* Gradients */
-    --gradient-hero: linear-gradient(135deg, hsl(220 100% 50%), hsl(260 100% 50%));
-    --gradient-card: linear-gradient(180deg, hsl(0 0% 100%), hsl(210 40% 98%));
-    
+    --gradient-hero: linear-gradient(135deg, hsl(217 91% 60% / 0.9), hsl(217 91% 50% / 0.9));
+    --gradient-card: linear-gradient(135deg, hsl(0 0% 100%), hsl(210 40% 98%));
+
     /* Shadows */
-    --shadow-card: 0 1px 3px 0 hsl(var(--card-shadow)), 0 1px 2px -1px hsl(var(--card-shadow));
-    --shadow-hero: 0 0 40px hsl(var(--bisnovo-primary) / 0.3);
-    
+    --shadow-card: 0 1px 3px 0 hsl(0 0% 0% / 0.1), 0 1px 2px -1px hsl(0 0% 0% / 0.1);
+    --shadow-hero: 0 10px 25px -3px hsl(0 0% 0% / 0.1), 0 4px 6px -4px hsl(0 0% 0% / 0.1);
+
     /* Typography */
-    --font-heading: "Arial", "Helvetica", sans-serif;
-    --font-body: "Arial", "Helvetica", sans-serif;
+    --font-heading: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Arial', sans-serif;
+    --font-body: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Arial', sans-serif;
 
-    --sidebar-background: 0 0% 98%;
+    /* Radius */
+    --radius: 0.5rem;
 
-    --sidebar-foreground: 240 5.3% 26.1%;
-
-    --sidebar-primary: 240 5.9% 10%;
-
-    --sidebar-primary-foreground: 0 0% 98%;
-
-    --sidebar-accent: 240 4.8% 95.9%;
-
-    --sidebar-accent-foreground: 240 5.9% 10%;
-
-    --sidebar-border: 220 13% 91%;
-
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    /* Sidebar Colors */
+    --sidebar-background: 210 40% 98%; /* #F9FAFB */
+    --sidebar-foreground: 220 9% 46%; /* #6B7280 */
+    --sidebar-primary: 215 25% 27%; /* #1F2937 */
+    --sidebar-primary-foreground: 0 0% 100%; /* White */
+    --sidebar-accent: 210 40% 96%; /* Light gray */
+    --sidebar-accent-foreground: 215 25% 27%; /* #1F2937 */
+    --sidebar-border: 214 32% 91%; /* Light border */
+    --sidebar-ring: 217 91% 60%; /* #2563EB */
   }
 
   .dark {
-    --background: 222.2 84% 4.9%;
-    --foreground: 210 40% 98%;
+    /* Background Colors */
+    --background: 215 28% 17%; /* Dark background */
+    --foreground: 210 40% 98%; /* Light text */
 
-    --card: 222.2 84% 4.9%;
-    --card-foreground: 210 40% 98%;
+    /* Card Colors */
+    --card: 215 28% 17%; /* Dark card */
+    --card-foreground: 210 40% 98%; /* Light text */
 
-    --popover: 222.2 84% 4.9%;
-    --popover-foreground: 210 40% 98%;
+    /* Popover Colors */
+    --popover: 215 28% 17%; /* Dark popover */
+    --popover-foreground: 210 40% 98%; /* Light text */
 
-    --primary: 210 40% 98%;
-    --primary-foreground: 222.2 47.4% 11.2%;
+    /* Primary Colors */
+    --primary: 217 91% 60%; /* #2563EB */
+    --primary-foreground: 0 0% 100%; /* White */
 
-    --secondary: 217.2 32.6% 17.5%;
-    --secondary-foreground: 210 40% 98%;
+    /* Secondary Colors */
+    --secondary: 215 25% 27%; /* Dark secondary */
+    --secondary-foreground: 210 40% 98%; /* Light text */
 
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
+    /* Muted Colors */
+    --muted: 215 25% 27%; /* Dark muted */
+    --muted-foreground: 220 9% 46%; /* #6B7280 */
 
-    --accent: 217.2 32.6% 17.5%;
-    --accent-foreground: 210 40% 98%;
+    /* Accent Colors */
+    --accent: 217 91% 60%; /* #2563EB */
+    --accent-foreground: 0 0% 100%; /* White */
 
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 210 40% 98%;
+    /* Destructive Colors */
+    --destructive: 0 84% 60%; /* Red */
+    --destructive-foreground: 0 0% 100%; /* White */
 
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
-    --ring: 212.7 26.8% 83.9%;
-    --sidebar-background: 240 5.9% 10%;
-    --sidebar-foreground: 240 4.8% 95.9%;
-    --sidebar-primary: 224.3 76.3% 48%;
+    /* Border Colors */
+    --border: 215 25% 27%; /* Dark border */
+    --input: 215 25% 27%; /* Dark input border */
+
+    /* Ring Colors */
+    --ring: 217 91% 60%; /* #2563EB */
+
+    /* Sidebar Colors */
+    --sidebar-background: 215 28% 17%;
+    --sidebar-foreground: 210 40% 98%;
+    --sidebar-primary: 217 91% 60%;
     --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 240 3.7% 15.9%;
-    --sidebar-accent-foreground: 240 4.8% 95.9%;
-    --sidebar-border: 240 3.7% 15.9%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    --sidebar-accent: 215 25% 27%;
+    --sidebar-accent-foreground: 210 40% 98%;
+    --sidebar-border: 215 25% 27%;
+    --sidebar-ring: 217 91% 60%;
   }
 }
 
