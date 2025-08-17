@@ -14,30 +14,124 @@ export type Database = {
   }
   public: {
     Tables: {
-      Bisnovo: {
+      course_lessons: {
+        Row: {
+          created_at: string | null
+          duration: number | null
+          id: string
+          lesson_number: number
+          module_id: string | null
+          title: string
+          type: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          duration?: number | null
+          id?: string
+          lesson_number: number
+          module_id?: string | null
+          title: string
+          type?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          duration?: number | null
+          id?: string
+          lesson_number?: number
+          module_id?: string | null
+          title?: string
+          type?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "course_lessons_module_id_fkey"
+            columns: ["module_id"]
+            isOneToOne: false
+            referencedRelation: "course_modules"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      course_modules: {
+        Row: {
+          course_id: string | null
+          created_at: string | null
+          description: string | null
+          id: string
+          module_number: number
+          title: string
+        }
+        Insert: {
+          course_id?: string | null
+          created_at?: string | null
+          description?: string | null
+          id?: string
+          module_number: number
+          title: string
+        }
+        Update: {
+          course_id?: string | null
+          created_at?: string | null
+          description?: string | null
+          id?: string
+          module_number?: number
+          title?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "course_modules_course_id_fkey"
+            columns: ["course_id"]
+            isOneToOne: false
+            referencedRelation: "courses"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      courses: {
         Row: {
           category: string | null
+          created_at: string | null
           description: string | null
           id: string
           image_url: string | null
+          lessons: number | null
+          level: string | null
+          modules: number | null
           name: string
           price: number | null
+          rating: number | null
+          students: number | null
+          updated_at: string | null
         }
         Insert: {
           category?: string | null
+          created_at?: string | null
           description?: string | null
           id?: string
           image_url?: string | null
+          lessons?: number | null
+          level?: string | null
+          modules?: number | null
           name: string
           price?: number | null
+          rating?: number | null
+          students?: number | null
+          updated_at?: string | null
         }
         Update: {
           category?: string | null
+          created_at?: string | null
           description?: string | null
           id?: string
           image_url?: string | null
+          lessons?: number | null
+          level?: string | null
+          modules?: number | null
           name?: string
           price?: number | null
+          rating?: number | null
+          students?: number | null
+          updated_at?: string | null
         }
         Relationships: []
       }
