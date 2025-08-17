@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
-import { ArrowLeft, Play, Users, BookOpen, CheckCircle, Download, FileText, Monitor } from "lucide-react";
+import { ArrowLeft, Users, CheckCircle, Download, FileText, Monitor, Shield, Clock, Zap, Globe } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -110,12 +110,12 @@ const ProductDetail = () => {
   };
 
   const productBenefits = [
-    "Akses instan setelah pembelian - langsung gunakan",
-    "Update produk seumur hidup tanpa biaya tambahan",
-    "Dukungan teknis 24/7 dari tim expert",
-    "Panduan lengkap dan dokumentasi terbaru",
-    "Akses ke komunitas pengguna premium",
-    "Lisensi komersial untuk penggunaan bisnis"
+    "Download langsung setelah pembayaran selesai",
+    "Update otomatis untuk versi terbaru",
+    "Dukungan teknis profesional 24/7",
+    "Dokumentasi lengkap dan tutorial",
+    "Lisensi penggunaan komersial",
+    "Akses komunitas pengguna eksklusif"
   ];
 
   if (loading) {
@@ -189,90 +189,135 @@ const ProductDetail = () => {
                   </div>
                 )}
                 <div className="flex items-center gap-2">
-                  <BookOpen className="h-4 w-4 text-muted-foreground" />
-                  <span>{details.length} detail</span>
+                  <FileText className="h-4 w-4 text-muted-foreground" />
+                  <span>{Object.values(features).flat().length} komponen</span>
                 </div>
               </div>
             </div>
 
-            {/* Product Image */}
-            <div className="relative rounded-lg overflow-hidden">
-              <img
-                src={product.image_url || '/api/placeholder/800/400'}
-                alt={product.name}
-                className="w-full h-64 md:h-80 object-cover"
-              />
-              <div className="absolute inset-0 bg-black/40 flex items-center justify-center">
-                <Button size="lg" className="bg-white/20 hover:bg-white/30 text-white border-white/30">
-                  <Play className="mr-2 h-6 w-6" />
-                  Preview Produk
-                </Button>
+            {/* Product Showcase */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="space-y-4">
+                <div className="relative rounded-lg overflow-hidden bg-gradient-to-br from-primary/10 to-primary/5 p-8">
+                  <img
+                    src={product.image_url || '/api/placeholder/400/300'}
+                    alt={product.name}
+                    className="w-full h-48 object-cover rounded-lg"
+                  />
+                </div>
               </div>
-            </div>
-
-            {/* Tabs */}
-            <Tabs defaultValue="details" className="w-full">
-              <TabsList className="grid w-full grid-cols-2">
-                <TabsTrigger value="details">Detail Produk</TabsTrigger>
-                <TabsTrigger value="benefits">Keuntungan</TabsTrigger>
-              </TabsList>
               
-              <TabsContent value="details" className="space-y-4">
-                <Accordion type="single" collapsible className="w-full">
-                  {details.map((detail, index) => (
-                    <AccordionItem key={detail.id} value={`detail-${index}`}>
-                      <AccordionTrigger className="text-left">
-                        <div>
-                          <div className="font-medium">
-                            Detail {detail.detail_number}: {detail.title}
-                          </div>
-                          <div className="text-sm text-muted-foreground mt-1">
-                            {features[detail.id]?.length || 0} fitur
-                          </div>
-                        </div>
-                      </AccordionTrigger>
-                      <AccordionContent>
-                        <div className="space-y-3 pl-4">
-                          <p className="text-muted-foreground">{detail.description}</p>
-                          <div className="space-y-2">
-                             {features[detail.id]?.map((feature) => (
-                               <div key={feature.id} className="flex items-center gap-3 py-2 border-b border-border last:border-0">
-                                 <div className="flex items-center gap-2 flex-1">
-                                   {feature.type === 'video' ? (
-                                     <Play className="h-4 w-4 text-bisnovo-primary" />
-                                   ) : feature.type === 'file' ? (
-                                     <Download className="h-4 w-4 text-bisnovo-primary" />
-                                   ) : feature.type === 'tool' ? (
-                                     <Monitor className="h-4 w-4 text-bisnovo-primary" />
-                                   ) : (
-                                     <FileText className="h-4 w-4 text-bisnovo-primary" />
-                                   )}
-                                   <span className="text-sm">{feature.title}</span>
-                                 </div>
-                                 <div className="text-xs text-muted-foreground">
-                                   {feature.quantity > 1 ? `${feature.quantity} item` : '1 item'}
-                                 </div>
-                               </div>
-                             ))}
-                          </div>
-                        </div>
-                      </AccordionContent>
-                    </AccordionItem>
-                  ))}
-                </Accordion>
-              </TabsContent>
-              
-              <TabsContent value="benefits" className="space-y-4">
-                <div className="grid gap-3">
-                  {productBenefits.map((benefit, index) => (
-                    <div key={index} className="flex items-start gap-3">
-                      <CheckCircle className="h-5 w-5 text-bisnovo-primary mt-0.5 flex-shrink-0" />
-                      <span className="text-sm">{benefit}</span>
+              <div className="space-y-4">
+                <h3 className="text-xl font-semibold text-foreground">Yang Anda Dapatkan</h3>
+                <div className="space-y-3">
+                  {Object.values(features).flat().slice(0, 4).map((feature, index) => (
+                    <div key={feature.id} className="flex items-center gap-3 p-3 bg-muted/50 rounded-lg">
+                      {feature.type === 'video' ? (
+                        <Monitor className="h-5 w-5 text-primary" />
+                      ) : feature.type === 'file' ? (
+                        <Download className="h-5 w-5 text-primary" />
+                      ) : (
+                        <FileText className="h-5 w-5 text-primary" />
+                      )}
+                      <span className="text-sm font-medium">{feature.title}</span>
+                      {feature.quantity > 1 && (
+                        <span className="text-xs bg-primary/10 text-primary px-2 py-1 rounded-full">
+                          {feature.quantity}x
+                        </span>
+                      )}
                     </div>
                   ))}
                 </div>
-              </TabsContent>
-            </Tabs>
+              </div>
+            </div>
+
+            {/* Product Features & Specifications */}
+            <div className="space-y-8">
+              {/* Product Features */}
+              <div>
+                <h3 className="text-2xl font-bold text-foreground mb-6">Fitur Produk</h3>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  {productBenefits.map((benefit, index) => (
+                    <div key={index} className="flex items-start gap-3 p-4 bg-muted/30 rounded-lg border">
+                      <CheckCircle className="h-5 w-5 text-primary mt-0.5 flex-shrink-0" />
+                      <span className="text-sm font-medium">{benefit}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* What's Included */}
+              <div>
+                <h3 className="text-2xl font-bold text-foreground mb-6">Paket Lengkap</h3>
+                <div className="grid gap-4">
+                  {details.map((detail, index) => (
+                    <Card key={detail.id} className="p-6">
+                      <div className="flex items-start justify-between mb-4">
+                        <div>
+                          <h4 className="font-semibold text-lg text-foreground">{detail.title}</h4>
+                          <p className="text-muted-foreground mt-2">{detail.description}</p>
+                        </div>
+                        <Badge variant="secondary">{features[detail.id]?.length || 0} item</Badge>
+                      </div>
+                      
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mt-4">
+                        {features[detail.id]?.map((feature) => (
+                          <div key={feature.id} className="flex items-center gap-3 p-3 bg-muted/50 rounded-lg">
+                            {feature.type === 'video' ? (
+                              <Monitor className="h-4 w-4 text-primary" />
+                            ) : feature.type === 'file' ? (
+                              <Download className="h-4 w-4 text-primary" />
+                            ) : feature.type === 'tool' ? (
+                              <Monitor className="h-4 w-4 text-primary" />
+                            ) : (
+                              <FileText className="h-4 w-4 text-primary" />
+                            )}
+                            <div className="flex-1">
+                              <span className="text-sm font-medium">{feature.title}</span>
+                              {feature.quantity > 1 && (
+                                <span className="text-xs text-muted-foreground ml-2">
+                                  ({feature.quantity}x)
+                                </span>
+                              )}
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    </Card>
+                  ))}
+                </div>
+              </div>
+
+              {/* Product Guarantees */}
+              <div>
+                <h3 className="text-2xl font-bold text-foreground mb-6">Jaminan Produk</h3>
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                  <div className="flex items-center gap-3 p-4 bg-green-50 dark:bg-green-950/20 rounded-lg border border-green-200 dark:border-green-800">
+                    <Shield className="h-6 w-6 text-green-600" />
+                    <div>
+                      <div className="font-medium text-green-800 dark:text-green-200">100% Aman</div>
+                      <div className="text-sm text-green-600 dark:text-green-300">Garansi uang kembali</div>
+                    </div>
+                  </div>
+                  
+                  <div className="flex items-center gap-3 p-4 bg-blue-50 dark:bg-blue-950/20 rounded-lg border border-blue-200 dark:border-blue-800">
+                    <Clock className="h-6 w-6 text-blue-600" />
+                    <div>
+                      <div className="font-medium text-blue-800 dark:text-blue-200">Akses Langsung</div>
+                      <div className="text-sm text-blue-600 dark:text-blue-300">Download instan</div>
+                    </div>
+                  </div>
+                  
+                  <div className="flex items-center gap-3 p-4 bg-purple-50 dark:bg-purple-950/20 rounded-lg border border-purple-200 dark:border-purple-800">
+                    <Zap className="h-6 w-6 text-purple-600" />
+                    <div>
+                      <div className="font-medium text-purple-800 dark:text-purple-200">Update Gratis</div>
+                      <div className="text-sm text-purple-600 dark:text-purple-300">Seumur hidup</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
 
           {/* Sidebar */}
