@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { HeroSection } from "@/components/hero-section";
 import { CategoryFilter } from "@/components/category-filter";
-import { CourseGrid } from "@/components/course-grid";
+import { ProductGrid } from "@/components/product-grid";
 import { BottomNavigation } from "@/components/bottom-navigation";
 
 const Index = () => {
@@ -24,8 +24,8 @@ const Index = () => {
           onToggleCategories={() => setShowAllCategories(!showAllCategories)}
         />
 
-        {/* Course Grid */}
-        <CourseGrid selectedCategory={selectedCategory} />
+        {/* Product Grid */}
+        <ProductGrid selectedCategory={selectedCategory} />
       </main>
 
       {/* Bottom Navigation (Mobile Only) */}

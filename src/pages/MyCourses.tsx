@@ -15,7 +15,7 @@ const MyCourses = () => {
             </Button>
           </Link>
           <h1 className="ml-4 text-xl font-bold text-foreground">
-            Course Saya
+            Produk Saya
           </h1>
         </div>
       </header>
@@ -26,15 +26,15 @@ const MyCourses = () => {
             <BookOpen className="h-12 w-12 text-bisnovo-primary" />
           </div>
           <h2 className="text-2xl font-bold text-foreground mb-4">
-            Belum Ada Course
+            Belum Ada Produk
           </h2>
           <p className="text-muted-foreground mb-8 max-w-md mx-auto">
-            Mulai perjalanan belajar Anda dengan memilih course yang sesuai dengan tujuan bisnis digital Anda.
+            Mulai berbelanja dengan memilih produk digital atau fisik yang sesuai dengan kebutuhan Anda.
           </p>
           <Link to="/">
             <Button className="bg-bisnovo-primary hover:bg-bisnovo-primary/90 text-bisnovo-primary-foreground">
               <TrendingUp className="mr-2 h-5 w-5" />
-              Jelajahi Course
+              Jelajahi Produk
             </Button>
           </Link>
         </div>

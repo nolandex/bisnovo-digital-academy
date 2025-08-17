@@ -1,11 +1,12 @@
 import { useState, useEffect } from "react";
 import { supabase } from "@/integrations/supabase/client";
-import { Course } from "@/components/course-card";
+import { Product } from "@/components/product-card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Checkbox } from "@/components/ui/checkbox";
 import { Upload, X } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
@@ -14,13 +15,13 @@ interface Category {
   name: string;
 }
 
-interface CourseFormProps {
-  course?: Course | null;
+interface ProductFormProps {
+  product?: Product | null;
   onSuccess: () => void;
   onCancel: () => void;
 }
 
-export function CourseForm({ course, onSuccess, onCancel }: CourseFormProps) {
+export function ProductForm({ product, onSuccess, onCancel }: ProductFormProps) {
   const [categories, setCategories] = useState<Category[]>([]);
   const [loading, setLoading] = useState(false);
   const [imageFile, setImageFile] = useState<File | null>(null);
@@ -28,23 +29,25 @@ export function CourseForm({ course, onSuccess, onCancel }: CourseFormProps) {
   const { toast } = useToast();
 
   const [formData, setFormData] = useState({
-    name: course?.name || "",
-    description: course?.description || "",
-    category: course?.category || "",
-    level: course?.level || "Easy",
-    price: course?.price || 0,
-    rating: course?.rating || 4.5,
-    students: course?.students || 0,
-    modules: course?.modules || 3,
-    lessons: course?.lessons || 12,
+    name: product?.name || "",
+    description: product?.description || "",
+    category: product?.category || "",
+    level: product?.level || "Easy",
+    price: product?.price || 0,
+    rating: product?.rating || 4.5,
+    students: product?.students || 0,
+    details: product?.details || 3,
+    features: product?.features || 12,
+    stock: product?.stock || 100,
+    is_digital: product?.is_digital || false,
   });
 
   useEffect(() => {
     fetchCategories();
-    if (course?.image_url) {
-      setImagePreview(course.image_url);
+    if (product?.image_url) {
+      setImagePreview(product.image_url);
     }
-  }, [course]);
+  }, [product]);
 
   const fetchCategories = async () => {
     try {
@@ -95,49 +98,49 @@ export function CourseForm({ course, onSuccess, onCancel }: CourseFormProps) {
     setLoading(true);
 
     try {
-      let imageUrl = course?.image_url || "";
+      let imageUrl = product?.image_url || "";
 
       if (imageFile) {
         imageUrl = await uploadImage(imageFile);
       }
 
-      const courseData = {
+      const productData = {
         ...formData,
         image_url: imageUrl,
         updated_at: new Date().toISOString(),
       };
 
-      if (course) {
-        // Update existing course
+      if (product) {
+        // Update existing product
         const { error } = await supabase
-          .from('courses')
-          .update(courseData)
-          .eq('id', course.id);
+          .from('products')
+          .update(productData)
+          .eq('id', product.id);
 
         if (error) throw error;
         toast({
           title: "Success",
-          description: "Course updated successfully",
+          description: "Product updated successfully",
         });
       } else {
-        // Create new course
+        // Create new product
         const { error } = await supabase
-          .from('courses')
-          .insert([courseData]);
+          .from('products')
+          .insert([productData]);
 
         if (error) throw error;
         toast({
           title: "Success",
-          description: "Course created successfully",
+          description: "Product created successfully",
         });
       }
 
       onSuccess();
     } catch (error) {
-      console.error('Error saving course:', error);
+      console.error('Error saving product:', error);
       toast({
         title: "Error",
-        description: "Failed to save course",
+        description: "Failed to save product",
         variant: "destructive",
       });
     } finally {
@@ -149,7 +152,7 @@ export function CourseForm({ course, onSuccess, onCancel }: CourseFormProps) {
     <form onSubmit={handleSubmit} className="p-6">
       <div className="flex items-center justify-between mb-6">
         <h3 className="text-lg font-semibold text-gray-900">
-          {course ? 'Edit Course' : 'Add New Course'}
+          {product ? 'Edit Product' : 'Add New Product'}
         </h3>
         <Button type="button" variant="ghost" size="icon" onClick={onCancel}>
           <X className="h-5 w-5" />
@@ -157,15 +160,15 @@ export function CourseForm({ course, onSuccess, onCancel }: CourseFormProps) {
       </div>
 
       <div className="space-y-4">
-        {/* Course Name */}
+        {/* Product Name */}
         <div>
-          <Label htmlFor="name">Course Name *</Label>
+          <Label htmlFor="name">Product Name *</Label>
           <Input
             id="name"
             required
             value={formData.name}
             onChange={(e) => setFormData({...formData, name: e.target.value})}
-            placeholder="Enter course name"
+            placeholder="Enter product name"
           />
         </div>
 
@@ -176,7 +179,7 @@ export function CourseForm({ course, onSuccess, onCancel }: CourseFormProps) {
             id="description"
             value={formData.description}
             onChange={(e) => setFormData({...formData, description: e.target.value})}
-            placeholder="Enter course description"
+            placeholder="Enter product description"
             rows={3}
           />
         </div>
@@ -249,10 +252,10 @@ export function CourseForm({ course, onSuccess, onCancel }: CourseFormProps) {
           </div>
         </div>
 
-        {/* Students, Modules, Lessons */}
+        {/* Customers, Details, Features */}
         <div className="grid grid-cols-3 gap-4">
           <div>
-            <Label htmlFor="students">Students</Label>
+            <Label htmlFor="students">Customers</Label>
             <Input
               id="students"
               type="number"
@@ -263,37 +266,60 @@ export function CourseForm({ course, onSuccess, onCancel }: CourseFormProps) {
           </div>
 
           <div>
-            <Label htmlFor="modules">Modules</Label>
+            <Label htmlFor="details">Details</Label>
             <Input
-              id="modules"
+              id="details"
               type="number"
               min="1"
-              value={formData.modules}
-              onChange={(e) => setFormData({...formData, modules: Number(e.target.value)})}
+              value={formData.details}
+              onChange={(e) => setFormData({...formData, details: Number(e.target.value)})}
             />
           </div>
 
           <div>
-            <Label htmlFor="lessons">Lessons</Label>
+            <Label htmlFor="features">Features</Label>
             <Input
-              id="lessons"
+              id="features"
               type="number"
               min="1"
-              value={formData.lessons}
-              onChange={(e) => setFormData({...formData, lessons: Number(e.target.value)})}
+              value={formData.features}
+              onChange={(e) => setFormData({...formData, features: Number(e.target.value)})}
             />
+          </div>
+        </div>
+
+        {/* Stock & Digital */}
+        <div className="grid grid-cols-2 gap-4">
+          <div>
+            <Label htmlFor="stock">Stock</Label>
+            <Input
+              id="stock"
+              type="number"
+              min="0"
+              value={formData.stock}
+              onChange={(e) => setFormData({...formData, stock: Number(e.target.value)})}
+            />
+          </div>
+
+          <div className="flex items-center space-x-2 pt-8">
+            <Checkbox
+              id="is_digital"
+              checked={formData.is_digital}
+              onCheckedChange={(checked) => setFormData({...formData, is_digital: !!checked})}
+            />
+            <Label htmlFor="is_digital">Digital Product</Label>
           </div>
         </div>
 
         {/* Image Upload */}
         <div>
-          <Label>Course Image</Label>
+          <Label>Product Image</Label>
           <div className="mt-2">
             {imagePreview ? (
               <div className="relative inline-block">
                 <img
                   src={imagePreview}
-                  alt="Course preview"
+                  alt="Product preview"
                   className="w-32 h-20 object-cover rounded-lg border"
                 />
                 <Button
@@ -312,7 +338,7 @@ export function CourseForm({ course, onSuccess, onCancel }: CourseFormProps) {
             ) : (
               <div className="border-2 border-dashed border-gray-300 rounded-lg p-4 text-center">
                 <Upload className="h-8 w-8 mx-auto text-gray-400 mb-2" />
-                <p className="text-sm text-gray-600">Upload course image</p>
+                <p className="text-sm text-gray-600">Upload product image</p>
               </div>
             )}
             <Input
@@ -335,7 +361,7 @@ export function CourseForm({ course, onSuccess, onCancel }: CourseFormProps) {
           disabled={loading}
           className="bg-blue-600 hover:bg-blue-700"
         >
-          {loading ? "Saving..." : course ? "Update Course" : "Create Course"}
+          {loading ? "Saving..." : product ? "Update Product" : "Create Product"}
         </Button>
       </div>
     </form>

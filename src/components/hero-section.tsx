@@ -14,12 +14,12 @@ export function HeroSection() {
         {/* Background image dengan gradient overlay */}
         <div className="absolute inset-0 bg-black bg-opacity-40 flex flex-col items-center justify-center">
           <div className="text-center text-white mb-4">
-            <h1 className="text-2xl md:text-4xl font-bold mb-2">
-              Mulai Bisnis Digital Anda
-            </h1>
-            <p className="text-sm md:text-lg">
-              Pelajari bisnis jasa digital dari modal minim hingga jutaan rupiah
-            </p>
+        <h1 className="text-2xl md:text-4xl font-bold mb-2">
+          Toko Online Terpercaya
+        </h1>
+        <p className="text-sm md:text-lg">
+          Belanja produk digital dan fisik berkualitas dengan harga terbaik
+        </p>
           </div>
         </div>
       </div>

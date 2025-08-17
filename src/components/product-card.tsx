@@ -4,7 +4,7 @@ import { StarRating } from "@/components/ui/star-rating";
 import { Users, Clock } from "lucide-react";
 import { Link } from "react-router-dom";
 
-export interface Course {
+export interface Product {
   id: string;
   name: string;
   description: string;
@@ -14,27 +14,29 @@ export interface Course {
   students: number;
   price: number;
   image_url?: string;
-  modules?: number;
-  lessons?: number;
+  details?: number;
+  features?: number;
+  stock?: number;
+  is_digital?: boolean;
   created_at?: string;
   updated_at?: string;
 }
 
-interface CourseCardProps {
-  course: Course;
+interface ProductCardProps {
+  product: Product;
 }
 
-export function CourseCard({ course }: CourseCardProps) {
-  const formatStudents = (students: number) => {
-    if (students >= 1000) {
-      return `${(students / 1000).toFixed(1)}k`;
+export function ProductCard({ product }: ProductCardProps) {
+  const formatCustomers = (customers: number) => {
+    if (customers >= 1000) {
+      return `${(customers / 1000).toFixed(1)}k`;
     }
-    return students.toString();
+    return customers.toString();
   };
 
-  const formatDuration = (lessons: number) => {
-    const hours = Math.ceil(lessons * 0.5); // Estimate 30 min per lesson
-    return `${hours}h`;
+  const formatStock = (stock: number) => {
+    if (stock > 99) return "99+";
+    return stock.toString();
   };
 
   const getLevelBadgeStyle = (level: string) => {
@@ -51,46 +53,46 @@ export function CourseCard({ course }: CourseCardProps) {
   };
 
   return (
-    <Link to={`/courses/${course.id}`} className="block">
+    <Link to={`/products/${product.id}`} className="block">
       <div className="bg-white rounded-lg shadow-md overflow-hidden flex flex-col h-full hover:shadow-lg transition-shadow duration-200">
         {/* Image Section */}
         <div className="relative">
           <div className="w-full h-20 bg-gradient-to-r from-blue-400 to-blue-600">
-            {course.image_url && (
+            {product.image_url && (
               <img
-                src={course.image_url}
-                alt={course.name}
+                src={product.image_url}
+                alt={product.name}
                 className="w-full h-full object-cover"
               />
             )}
           </div>
-          <span className={`absolute top-1 right-1 text-[0.5rem] px-1.5 py-0.5 rounded-full font-medium ${getLevelBadgeStyle(course.level)}`}>
-            {course.level}
+          <span className={`absolute top-1 right-1 text-[0.5rem] px-1.5 py-0.5 rounded-full font-medium ${getLevelBadgeStyle(product.level)}`}>
+            {product.level}
           </span>
         </div>
         
         {/* Content Section */}
         <div className="p-2 flex flex-col flex-grow">
           <h3 className="text-xs font-semibold text-gray-800 line-clamp-2 mb-1 leading-tight">
-            {course.name}
+            {product.name}
           </h3>
           <p className="text-[0.6rem] text-gray-600 mb-2 truncate">
-            by Bisnovo Expert
+            {product.is_digital ? 'Digital' : 'Physical'} Product
           </p>
           
           {/* Metadata Row */}
           <div className="flex items-center gap-1 text-[0.6rem] mt-auto">
             <div className="flex items-center gap-0.5">
               <span className="text-yellow-500">★</span>
-              <span className="text-gray-600">{course.rating}</span>
+              <span className="text-gray-600">{product.rating}</span>
             </div>
             <span className="text-gray-400">•</span>
             <div className="flex items-center gap-0.5">
-              <span className="text-gray-600">{formatStudents(course.students)}</span>
+              <span className="text-gray-600">{formatCustomers(product.students)}</span>
             </div>
             <span className="text-gray-400">•</span>
             <div className="flex items-center gap-0.5">
-              <span className="text-gray-600">{formatDuration(course.lessons || 12)}</span>
+              <span className="text-gray-600">Stok: {formatStock(product.stock || 100)}</span>
             </div>
           </div>
         </div>

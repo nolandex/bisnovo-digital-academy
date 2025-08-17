@@ -1,47 +1,47 @@
 import { useEffect, useState, useMemo } from "react";
-import { CourseCard, Course } from "@/components/course-card";
+import { ProductCard, Product } from "@/components/product-card";
 import { supabase } from "@/integrations/supabase/client";
-import { Loader2 } from "lucide-react";
+import { BookOpen } from "lucide-react";
 
-interface CourseGridProps {
+interface ProductGridProps {
   selectedCategory: string;
 }
 
-export function CourseGrid({ selectedCategory }: CourseGridProps) {
-  const [courses, setCourses] = useState<Course[]>([]);
+export function ProductGrid({ selectedCategory }: ProductGridProps) {
+  const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const fetchCourses = async () => {
+    const fetchProducts = async () => {
       try {
         setLoading(true);
         const { data, error } = await supabase
-          .from('courses')
+          .from('products')
           .select('*')
           .order('created_at', { ascending: false });
 
         if (error) throw error;
-        setCourses(data || []);
+        setProducts(data || []);
       } catch (error) {
-        console.error('Error fetching courses:', error);
+        console.error('Error fetching products:', error);
       } finally {
         setLoading(false);
       }
     };
 
-    fetchCourses();
+    fetchProducts();
   }, []);
 
-  const filteredCourses = useMemo(() => {
-    if (selectedCategory === 'Semua') return courses;
+  const filteredProducts = useMemo(() => {
+    if (selectedCategory === 'Semua') return products;
     
     if (selectedCategory === 'Populer') {
-      return [...courses]
+      return [...products]
         .sort((a, b) => (b.rating * b.students) - (a.rating * a.students));
     }
     
-    return courses.filter(course => course.category === selectedCategory);
-  }, [courses, selectedCategory]);
+    return products.filter(product => product.category === selectedCategory);
+  }, [products, selectedCategory]);
 
   if (loading) {
     return (
@@ -65,12 +65,12 @@ export function CourseGrid({ selectedCategory }: CourseGridProps) {
     );
   }
 
-  if (filteredCourses.length === 0) {
+  if (filteredProducts.length === 0) {
     return (
       <div className="text-center py-16 px-4 animate-fade-in">
-        <div className="text-4xl mb-4">📚</div>
+        <div className="text-4xl mb-4">🛍️</div>
         <p className="text-muted-foreground text-small">
-          Tidak ada course untuk kategori "{selectedCategory}"
+          Tidak ada produk untuk kategori "{selectedCategory}"
         </p>
       </div>
     );
@@ -79,13 +79,13 @@ export function CourseGrid({ selectedCategory }: CourseGridProps) {
   return (
     <section className="px-4 pb-20">
       <div className="grid grid-cols-2 gap-4">
-        {filteredCourses.map((course, index) => (
+        {filteredProducts.map((product, index) => (
           <div
-            key={course.id}
+            key={product.id}
             style={{ animationDelay: `${0.1 * index}s` }}
             className="animate-scale-in"
           >
-            <CourseCard course={course} />
+            <ProductCard product={product} />
           </div>
         ))}
       </div>

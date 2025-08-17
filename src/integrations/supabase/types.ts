@@ -38,92 +38,94 @@ export type Database = {
         }
         Relationships: []
       }
-      course_lessons: {
+      product_details: {
         Row: {
           created_at: string | null
-          duration: number | null
+          description: string | null
+          detail_number: number
           id: string
-          lesson_number: number
-          module_id: string | null
+          product_id: string | null
+          title: string
+        }
+        Insert: {
+          created_at?: string | null
+          description?: string | null
+          detail_number: number
+          id?: string
+          product_id?: string | null
+          title: string
+        }
+        Update: {
+          created_at?: string | null
+          description?: string | null
+          detail_number?: number
+          id?: string
+          product_id?: string | null
+          title?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "course_modules_course_id_fkey"
+            columns: ["product_id"]
+            isOneToOne: false
+            referencedRelation: "products"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      product_features: {
+        Row: {
+          created_at: string | null
+          detail_id: string | null
+          feature_number: number
+          id: string
+          quantity: number | null
           title: string
           type: string | null
         }
         Insert: {
           created_at?: string | null
-          duration?: number | null
+          detail_id?: string | null
+          feature_number: number
           id?: string
-          lesson_number: number
-          module_id?: string | null
+          quantity?: number | null
           title: string
           type?: string | null
         }
         Update: {
           created_at?: string | null
-          duration?: number | null
+          detail_id?: string | null
+          feature_number?: number
           id?: string
-          lesson_number?: number
-          module_id?: string | null
+          quantity?: number | null
           title?: string
           type?: string | null
         }
         Relationships: [
           {
             foreignKeyName: "course_lessons_module_id_fkey"
-            columns: ["module_id"]
+            columns: ["detail_id"]
             isOneToOne: false
-            referencedRelation: "course_modules"
+            referencedRelation: "product_details"
             referencedColumns: ["id"]
           },
         ]
       }
-      course_modules: {
-        Row: {
-          course_id: string | null
-          created_at: string | null
-          description: string | null
-          id: string
-          module_number: number
-          title: string
-        }
-        Insert: {
-          course_id?: string | null
-          created_at?: string | null
-          description?: string | null
-          id?: string
-          module_number: number
-          title: string
-        }
-        Update: {
-          course_id?: string | null
-          created_at?: string | null
-          description?: string | null
-          id?: string
-          module_number?: number
-          title?: string
-        }
-        Relationships: [
-          {
-            foreignKeyName: "course_modules_course_id_fkey"
-            columns: ["course_id"]
-            isOneToOne: false
-            referencedRelation: "courses"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
-      courses: {
+      products: {
         Row: {
           category: string | null
           created_at: string | null
           description: string | null
+          details: number | null
+          features: number | null
           id: string
           image_url: string | null
-          lessons: number | null
+          is_digital: boolean | null
           level: string | null
-          modules: number | null
           name: string
           price: number | null
           rating: number | null
+          stock: number | null
           students: number | null
           updated_at: string | null
         }
@@ -131,14 +133,16 @@ export type Database = {
           category?: string | null
           created_at?: string | null
           description?: string | null
+          details?: number | null
+          features?: number | null
           id?: string
           image_url?: string | null
-          lessons?: number | null
+          is_digital?: boolean | null
           level?: string | null
-          modules?: number | null
           name: string
           price?: number | null
           rating?: number | null
+          stock?: number | null
           students?: number | null
           updated_at?: string | null
         }
@@ -146,14 +150,16 @@ export type Database = {
           category?: string | null
           created_at?: string | null
           description?: string | null
+          details?: number | null
+          features?: number | null
           id?: string
           image_url?: string | null
-          lessons?: number | null
+          is_digital?: boolean | null
           level?: string | null
-          modules?: number | null
           name?: string
           price?: number | null
           rating?: number | null
+          stock?: number | null
           students?: number | null
           updated_at?: string | null
         }

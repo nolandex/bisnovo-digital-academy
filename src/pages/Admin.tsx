@@ -1,16 +1,16 @@
 import { useState, useEffect } from "react";
-import { CourseManager } from "@/components/admin/course-manager";
+import { ProductManager } from "@/components/admin/product-manager";
 import { CategoryManager } from "@/components/admin/category-manager";
 import { AdminLogin } from "@/components/admin/admin-login";
 import { Button } from "@/components/ui/button";
-import { BookOpen, Tags, ArrowLeft, LogOut } from "lucide-react";
+import { Package, Tags, ArrowLeft, LogOut } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useToast } from "@/hooks/use-toast";
 
-type AdminTab = "courses" | "categories";
+type AdminTab = "products" | "categories";
 
 export default function Admin() {
-  const [activeTab, setActiveTab] = useState<AdminTab>("courses");
+  const [activeTab, setActiveTab] = useState<AdminTab>("products");
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const { toast } = useToast();
 
@@ -71,17 +71,17 @@ export default function Admin() {
         <div className="px-4">
           <div className="flex space-x-1">
             <button
-              onClick={() => setActiveTab("courses")}
+              onClick={() => setActiveTab("products")}
               className={`
                 flex items-center gap-2 px-4 py-2 rounded-t-lg font-medium text-sm transition-colors
-                ${activeTab === "courses" 
+                ${activeTab === "products" 
                   ? 'bg-primary text-primary-foreground' 
                   : 'bg-muted text-muted-foreground hover:bg-muted/80'
                 }
               `}
             >
-              <BookOpen className="h-4 w-4" />
-              Courses
+              <Package className="h-4 w-4" />
+              Products
             </button>
             <button
               onClick={() => setActiveTab("categories")}
@@ -102,7 +102,7 @@ export default function Admin() {
 
       {/* Content */}
       <main className="p-4">
-        {activeTab === "courses" && <CourseManager />}
+        {activeTab === "products" && <ProductManager />}
         {activeTab === "categories" && <CategoryManager />}
       </main>
     </div>
