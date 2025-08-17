@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
-import { ArrowLeft, Play, Clock, Users, BookOpen, Star, CheckCircle, Download, Package } from "lucide-react";
+import { ArrowLeft, Play, Users, BookOpen, CheckCircle, Download, FileText, Monitor } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -110,12 +110,12 @@ const ProductDetail = () => {
   };
 
   const productBenefits = [
-    "Produk berkualitas tinggi dengan standar internasional",
-    "Dukungan pelanggan 24/7 untuk semua produk",
-    "Garansi resmi dan perlindungan pembeli",
-    "Pengiriman cepat dan aman ke seluruh Indonesia",
-    "Panduan lengkap penggunaan produk",
-    "Akses ke komunitas pengguna dan tips eksklusif"
+    "Akses instan setelah pembelian - langsung gunakan",
+    "Update produk seumur hidup tanpa biaya tambahan",
+    "Dukungan teknis 24/7 dari tim expert",
+    "Panduan lengkap dan dokumentasi terbaru",
+    "Akses ke komunitas pengguna premium",
+    "Lisensi komersial untuk penggunaan bisnis"
   ];
 
   if (loading) {
@@ -180,12 +180,14 @@ const ProductDetail = () => {
                 <StarRating rating={product.rating} />
                 <div className="flex items-center gap-2">
                   <Users className="h-4 w-4 text-muted-foreground" />
-                  <span>{formatCustomers(product.students)} pembeli</span>
+                  <span>{formatCustomers(product.students)} pengguna</span>
                 </div>
-                <div className="flex items-center gap-2">
-                  <Package className="h-4 w-4 text-muted-foreground" />
-                  <span>Stok: {product.stock || 100}</span>
-                </div>
+                {!product.is_digital && (
+                  <div className="flex items-center gap-2">
+                    <FileText className="h-4 w-4 text-muted-foreground" />
+                    <span>Stok: {product.stock || 100}</span>
+                  </div>
+                )}
                 <div className="flex items-center gap-2">
                   <BookOpen className="h-4 w-4 text-muted-foreground" />
                   <span>{details.length} detail</span>
@@ -233,21 +235,25 @@ const ProductDetail = () => {
                         <div className="space-y-3 pl-4">
                           <p className="text-muted-foreground">{detail.description}</p>
                           <div className="space-y-2">
-                            {features[detail.id]?.map((feature) => (
-                              <div key={feature.id} className="flex items-center gap-3 py-2 border-b border-border last:border-0">
-                                <div className="flex items-center gap-2 flex-1">
-                                  {feature.type === 'digital' ? (
-                                    <Download className="h-4 w-4 text-bisnovo-primary" />
-                                  ) : (
-                                    <Package className="h-4 w-4 text-bisnovo-primary" />
-                                  )}
-                                  <span className="text-sm">{feature.title}</span>
-                                </div>
-                                <div className="text-xs text-muted-foreground">
-                                  Qty: {feature.quantity}
-                                </div>
-                              </div>
-                            ))}
+                             {features[detail.id]?.map((feature) => (
+                               <div key={feature.id} className="flex items-center gap-3 py-2 border-b border-border last:border-0">
+                                 <div className="flex items-center gap-2 flex-1">
+                                   {feature.type === 'video' ? (
+                                     <Play className="h-4 w-4 text-bisnovo-primary" />
+                                   ) : feature.type === 'file' ? (
+                                     <Download className="h-4 w-4 text-bisnovo-primary" />
+                                   ) : feature.type === 'tool' ? (
+                                     <Monitor className="h-4 w-4 text-bisnovo-primary" />
+                                   ) : (
+                                     <FileText className="h-4 w-4 text-bisnovo-primary" />
+                                   )}
+                                   <span className="text-sm">{feature.title}</span>
+                                 </div>
+                                 <div className="text-xs text-muted-foreground">
+                                   {feature.quantity > 1 ? `${feature.quantity} item` : '1 item'}
+                                 </div>
+                               </div>
+                             ))}
                           </div>
                         </div>
                       </AccordionContent>
@@ -291,16 +297,16 @@ const ProductDetail = () => {
                     <span className="font-medium">{product.level}</span>
                   </div>
                   <div className="flex justify-between text-sm">
-                    <span className="text-muted-foreground">Stok</span>
-                    <span className="font-medium">{product.stock || 100}</span>
+                    <span className="text-muted-foreground">Format</span>
+                    <span className="font-medium">{product.is_digital ? 'Digital Download' : 'Produk Fisik'}</span>
                   </div>
                   <div className="flex justify-between text-sm">
-                    <span className="text-muted-foreground">Tipe</span>
-                    <span className="font-medium">{product.is_digital ? 'Digital' : 'Fisik'}</span>
+                    <span className="text-muted-foreground">Akses</span>
+                    <span className="font-medium">{product.is_digital ? 'Seumur Hidup' : 'Langsung'}</span>
                   </div>
                   <div className="flex justify-between text-sm">
-                    <span className="text-muted-foreground">Garansi</span>
-                    <span className="font-medium">Ya</span>
+                    <span className="text-muted-foreground">Update</span>
+                    <span className="font-medium">{product.is_digital ? 'Otomatis' : 'Manual'}</span>
                   </div>
                 </div>
               </CardContent>
