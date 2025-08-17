@@ -15,7 +15,6 @@ interface Category {
   name: string;
 }
 
-
 interface ProductFormProps {
   product?: Product | null;
   onSuccess: () => void;
@@ -60,45 +59,6 @@ export function ProductForm({ product, onSuccess, onCancel }: ProductFormProps) 
     }
   };
 
-  const fetchProductDetails = async () => {
-    if (!product?.id) return;
-    try {
-      const { data, error } = await supabase
-        .from('product_details')
-        .select('*')
-        .eq('product_id', product.id)
-        .order('detail_number');
-
-      if (error) throw error;
-      setDetails(data || []);
-    } catch (error) {
-      console.error('Error fetching details:', error);
-    }
-  };
-
-  const fetchProductFeatures = async () => {
-    if (!product?.id) return;
-    try {
-      const { data: detailsData } = await supabase
-        .from('product_details')
-        .select('id')
-        .eq('product_id', product.id);
-
-      if (detailsData && detailsData.length > 0) {
-        const { data: featuresData, error } = await supabase
-          .from('product_features')
-          .select('*')
-          .in('detail_id', detailsData.map(d => d.id))
-          .order('feature_number');
-
-        if (error) throw error;
-        setFeatures(featuresData || []);
-      }
-    } catch (error) {
-      console.error('Error fetching features:', error);
-    }
-  };
-
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
@@ -110,7 +70,6 @@ export function ProductForm({ product, onSuccess, onCancel }: ProductFormProps) 
       reader.readAsDataURL(file);
     }
   };
-
 
   const uploadImage = async (file: File): Promise<string> => {
     const fileExt = file.name.split('.').pop();
@@ -130,7 +89,6 @@ export function ProductForm({ product, onSuccess, onCancel }: ProductFormProps) 
     return publicUrl;
   };
 
-
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
@@ -143,12 +101,16 @@ export function ProductForm({ product, onSuccess, onCancel }: ProductFormProps) 
       }
 
       const productData = {
-        ...formData,
+        name: formData.name,
+        description: formData.description,
+        category: formData.category,
+        price: formData.price,
+        is_digital: formData.is_digital,
+        features_text: formData.features,
+        how_it_works_text: formData.how_it_works,
         image_url: imageUrl,
         updated_at: new Date().toISOString(),
       };
-
-      let productId = product?.id;
 
       if (product) {
         // Update existing product
@@ -160,16 +122,12 @@ export function ProductForm({ product, onSuccess, onCancel }: ProductFormProps) 
         if (error) throw error;
       } else {
         // Create new product
-        const { data: newProduct, error } = await supabase
+        const { error } = await supabase
           .from('products')
-          .insert([productData])
-          .select()
-          .single();
+          .insert([productData]);
 
         if (error) throw error;
-        productId = newProduct.id;
       }
-
 
       toast({
         title: "Success",

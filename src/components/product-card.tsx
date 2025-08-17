@@ -15,6 +15,8 @@ export interface Product {
   is_digital?: boolean;
   created_at?: string;
   updated_at?: string;
+  features_text?: string;
+  how_it_works_text?: string;
 }
 
 interface ProductCardProps {

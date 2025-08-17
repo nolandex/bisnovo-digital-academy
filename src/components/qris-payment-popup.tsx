@@ -22,6 +22,10 @@ export function QrisPaymentPopup({
   const [copied, setCopied] = useState(false);
   const { toast } = useToast();
 
+  // Get global QRIS from localStorage if qrisImageUrl is not provided
+  const globalQris = localStorage.getItem('global-qris-url');
+  const displayQris = qrisImageUrl || globalQris;
+
   const formatPrice = (price: number) => {
     return new Intl.NumberFormat('id-ID', {
       style: 'currency',
@@ -49,10 +53,10 @@ export function QrisPaymentPopup({
   };
 
   const handleDownloadQris = () => {
-    if (!qrisImageUrl) return;
+    if (!displayQris) return;
     
     const link = document.createElement('a');
-    link.href = qrisImageUrl;
+    link.href = displayQris;
     link.download = `qris-${productName.replace(/\s+/g, '-').toLowerCase()}.jpg`;
     document.body.appendChild(link);
     link.click();
@@ -80,10 +84,10 @@ export function QrisPaymentPopup({
 
           {/* QRIS Code */}
           <div className="text-center">
-            {qrisImageUrl ? (
+            {displayQris ? (
               <div className="space-y-3">
                 <img
-                  src={qrisImageUrl}
+                  src={displayQris}
                   alt="QRIS Code"
                   className="mx-auto max-w-full h-64 object-contain border rounded-lg"
                 />

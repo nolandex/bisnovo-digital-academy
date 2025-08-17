@@ -38,6 +38,27 @@ export type Database = {
         }
         Relationships: []
       }
+      payment_settings: {
+        Row: {
+          created_at: string
+          id: string
+          qris_image_url: string | null
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          qris_image_url?: string | null
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          qris_image_url?: string | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
       product_details: {
         Row: {
           created_at: string | null
@@ -119,6 +140,8 @@ export type Database = {
           description: string | null
           details: number | null
           features: number | null
+          features_text: string | null
+          how_it_works_text: string | null
           id: string
           image_url: string | null
           is_digital: boolean | null
@@ -137,6 +160,8 @@ export type Database = {
           description?: string | null
           details?: number | null
           features?: number | null
+          features_text?: string | null
+          how_it_works_text?: string | null
           id?: string
           image_url?: string | null
           is_digital?: boolean | null
@@ -155,6 +180,8 @@ export type Database = {
           description?: string | null
           details?: number | null
           features?: number | null
+          features_text?: string | null
+          how_it_works_text?: string | null
           id?: string
           image_url?: string | null
           is_digital?: boolean | null

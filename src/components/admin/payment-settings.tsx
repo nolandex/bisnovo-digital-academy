@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
@@ -7,7 +6,6 @@ import { Upload, X } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
 interface PaymentSettings {
-  id?: string;
   qris_image_url: string;
 }
 
@@ -15,30 +13,17 @@ export function PaymentSettings() {
   const [loading, setLoading] = useState(false);
   const [qrisFile, setQrisFile] = useState<File | null>(null);
   const [qrisPreview, setQrisPreview] = useState<string>("");
-  const [settings, setSettings] = useState<PaymentSettings | null>(null);
+  const [settings, setSettings] = useState<PaymentSettings>({ qris_image_url: "" });
   const { toast } = useToast();
 
   useEffect(() => {
-    fetchPaymentSettings();
-  }, []);
-
-  const fetchPaymentSettings = async () => {
-    try {
-      const { data, error } = await supabase
-        .from('payment_settings')
-        .select('*')
-        .single();
-
-      if (error && error.code !== 'PGRST116') throw error;
-      
-      if (data) {
-        setSettings(data);
-        setQrisPreview(data.qris_image_url || "");
-      }
-    } catch (error) {
-      console.error('Error fetching payment settings:', error);
+    // Load QRIS from localStorage for now
+    const savedQris = localStorage.getItem('global-qris-url');
+    if (savedQris) {
+      setSettings({ qris_image_url: savedQris });
+      setQrisPreview(savedQris);
     }
-  };
+  }, []);
 
   const handleQrisChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -52,63 +37,34 @@ export function PaymentSettings() {
     }
   };
 
-  const uploadImage = async (file: File): Promise<string> => {
-    const fileExt = file.name.split('.').pop();
-    const fileName = `qris-${Date.now()}.${fileExt}`;
-    const filePath = `payment/${fileName}`;
-
-    const { error: uploadError } = await supabase.storage
-      .from('course-images')
-      .upload(filePath, file);
-
-    if (uploadError) throw uploadError;
-
-    const { data: { publicUrl } } = supabase.storage
-      .from('course-images')
-      .getPublicUrl(filePath);
-
-    return publicUrl;
-  };
-
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
 
     try {
-      let qrisUrl = settings?.qris_image_url || "";
-
+      // For now, just save to localStorage
+      // In the future, this will be saved to the payment_settings table
       if (qrisFile) {
-        qrisUrl = await uploadImage(qrisFile);
+        // Convert file to base64 and save locally for now
+        const reader = new FileReader();
+        reader.onload = () => {
+          const result = reader.result as string;
+          localStorage.setItem('global-qris-url', result);
+          setSettings({ qris_image_url: result });
+          toast({
+            title: "Success",
+            description: "Payment settings updated successfully",
+          });
+        };
+        reader.readAsDataURL(qrisFile);
+      } else if (qrisPreview) {
+        localStorage.setItem('global-qris-url', qrisPreview);
+        setSettings({ qris_image_url: qrisPreview });
+        toast({
+          title: "Success",
+          description: "Payment settings updated successfully",
+        });
       }
-
-      const paymentData = {
-        qris_image_url: qrisUrl,
-        updated_at: new Date().toISOString(),
-      };
-
-      if (settings?.id) {
-        // Update existing settings
-        const { error } = await supabase
-          .from('payment_settings')
-          .update(paymentData)
-          .eq('id', settings.id);
-
-        if (error) throw error;
-      } else {
-        // Create new settings
-        const { error } = await supabase
-          .from('payment_settings')
-          .insert([paymentData]);
-
-        if (error) throw error;
-      }
-
-      toast({
-        title: "Success",
-        description: "Payment settings updated successfully",
-      });
-
-      fetchPaymentSettings();
     } catch (error) {
       console.error('Error saving payment settings:', error);
       toast({
@@ -149,6 +105,8 @@ export function PaymentSettings() {
                   onClick={() => {
                     setQrisFile(null);
                     setQrisPreview("");
+                    localStorage.removeItem('global-qris-url');
+                    setSettings({ qris_image_url: "" });
                   }}
                 >
                   <X className="h-3 w-3" />
