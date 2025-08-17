@@ -115,6 +115,7 @@ export type Database = {
         Row: {
           category: string | null
           created_at: string | null
+          customers: number | null
           description: string | null
           details: number | null
           features: number | null
@@ -126,12 +127,12 @@ export type Database = {
           price: number | null
           rating: number | null
           stock: number | null
-          students: number | null
           updated_at: string | null
         }
         Insert: {
           category?: string | null
           created_at?: string | null
+          customers?: number | null
           description?: string | null
           details?: number | null
           features?: number | null
@@ -143,12 +144,12 @@ export type Database = {
           price?: number | null
           rating?: number | null
           stock?: number | null
-          students?: number | null
           updated_at?: string | null
         }
         Update: {
           category?: string | null
           created_at?: string | null
+          customers?: number | null
           description?: string | null
           details?: number | null
           features?: number | null
@@ -160,7 +161,6 @@ export type Database = {
           price?: number | null
           rating?: number | null
           stock?: number | null
-          students?: number | null
           updated_at?: string | null
         }
         Relationships: []

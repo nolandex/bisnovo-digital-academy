@@ -11,7 +11,7 @@ export interface Product {
   category: string;
   level: string;
   rating: number;
-  students: number;
+  customers: number;
   price: number;
   image_url?: string;
   details?: number;
@@ -88,7 +88,7 @@ export function ProductCard({ product }: ProductCardProps) {
             </div>
             <span className="text-gray-400">•</span>
             <div className="flex items-center gap-0.5">
-              <span className="text-gray-600">{formatCustomers(product.students)}</span>
+              <span className="text-gray-600">{formatCustomers(product.customers)}</span>
             </div>
             <span className="text-gray-400">•</span>
             <div className="flex items-center gap-0.5">

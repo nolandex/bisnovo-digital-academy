@@ -35,7 +35,7 @@ export function ProductForm({ product, onSuccess, onCancel }: ProductFormProps) 
     level: product?.level || "Easy",
     price: product?.price || 0,
     rating: product?.rating || 4.5,
-    students: product?.students || 0,
+    customers: product?.customers || 0,
     details: product?.details || 3,
     features: product?.features || 12,
     stock: product?.stock || 100,
@@ -255,13 +255,13 @@ export function ProductForm({ product, onSuccess, onCancel }: ProductFormProps) 
         {/* Customers, Details, Features */}
         <div className="grid grid-cols-3 gap-4">
           <div>
-            <Label htmlFor="students">Customers</Label>
+            <Label htmlFor="customers">Customers</Label>
             <Input
-              id="students"
+              id="customers"
               type="number"
               min="0"
-              value={formData.students}
-              onChange={(e) => setFormData({...formData, students: Number(e.target.value)})}
+              value={formData.customers}
+              onChange={(e) => setFormData({...formData, customers: Number(e.target.value)})}
             />
           </div>
 

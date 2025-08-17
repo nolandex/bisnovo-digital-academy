@@ -37,7 +37,7 @@ export function ProductGrid({ selectedCategory }: ProductGridProps) {
     
     if (selectedCategory === 'Populer') {
       return [...products]
-        .sort((a, b) => (b.rating * b.students) - (a.rating * a.students));
+        .sort((a, b) => (b.rating * b.customers) - (a.rating * a.customers));
     }
     
     return products.filter(product => product.category === selectedCategory);

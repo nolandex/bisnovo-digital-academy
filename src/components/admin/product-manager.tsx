@@ -148,7 +148,7 @@ export function ProductManager() {
                       <span>Category: {product.category}</span>
                       <span>Price: {formatPrice(product.price)}</span>
                       <span>Rating: {product.rating}/5</span>
-                      <span>Customers: {product.students}</span>
+                      <span>Customers: {product.customers}</span>
                       <span>Stock: {product.stock}</span>
                     </div>
                   </div>

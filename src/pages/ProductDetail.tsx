@@ -180,7 +180,7 @@ const ProductDetail = () => {
                 <StarRating rating={product.rating} />
                 <div className="flex items-center gap-2">
                   <Users className="h-4 w-4 text-muted-foreground" />
-                  <span>{formatCustomers(product.students)} pengguna</span>
+                  <span>{formatCustomers(product.customers)} pengguna</span>
                 </div>
                 {!product.is_digital && (
                   <div className="flex items-center gap-2">
