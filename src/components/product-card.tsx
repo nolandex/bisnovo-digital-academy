@@ -9,14 +9,9 @@ export interface Product {
   name: string;
   description: string;
   category: string;
-  level: string;
-  rating: number;
   customers: number;
   price: number;
   image_url?: string;
-  details?: number;
-  features?: number;
-  stock?: number;
   is_digital?: boolean;
   created_at?: string;
   updated_at?: string;
@@ -34,23 +29,6 @@ export function ProductCard({ product }: ProductCardProps) {
     return customers.toString();
   };
 
-  const formatStock = (stock: number) => {
-    if (stock > 99) return "99+";
-    return stock.toString();
-  };
-
-  const getLevelBadgeStyle = (level: string) => {
-    switch (level) {
-      case 'Easy':
-        return 'bg-green-100 text-green-700';
-      case 'Medium':
-        return 'bg-yellow-100 text-yellow-700';
-      case 'Hard':
-        return 'bg-red-100 text-red-700';
-      default:
-        return 'bg-gray-100 text-gray-700';
-    }
-  };
 
   return (
     <Link to={`/products/${product.id}`} className="block">
@@ -66,9 +44,11 @@ export function ProductCard({ product }: ProductCardProps) {
               />
             )}
           </div>
-          <span className={`absolute top-1 right-1 text-[0.5rem] px-1.5 py-0.5 rounded-full font-medium ${getLevelBadgeStyle(product.level)}`}>
-            {product.level}
-          </span>
+          {product.is_digital && (
+            <span className="absolute top-1 right-1 text-[0.5rem] px-1.5 py-0.5 rounded-full font-medium bg-blue-100 text-blue-700">
+              Digital
+            </span>
+          )}
         </div>
         
         {/* Content Section */}
@@ -77,22 +57,24 @@ export function ProductCard({ product }: ProductCardProps) {
             {product.name}
           </h3>
           <p className="text-[0.6rem] text-gray-600 mb-2 truncate">
-            {product.is_digital ? 'Digital' : 'Physical'} Product
+            {product.category}
           </p>
           
           {/* Metadata Row */}
           <div className="flex items-center gap-1 text-[0.6rem] mt-auto">
             <div className="flex items-center gap-0.5">
-              <span className="text-yellow-500">★</span>
-              <span className="text-gray-600">{product.rating}</span>
+              <span className="text-gray-600">{formatCustomers(product.customers)} pelanggan</span>
             </div>
             <span className="text-gray-400">•</span>
             <div className="flex items-center gap-0.5">
-              <span className="text-gray-600">{formatCustomers(product.customers)}</span>
-            </div>
-            <span className="text-gray-400">•</span>
-            <div className="flex items-center gap-0.5">
-              <span className="text-gray-600">Stok: {formatStock(product.stock || 100)}</span>
+              <span className="text-gray-600">
+                {new Intl.NumberFormat('id-ID', {
+                  style: 'currency',
+                  currency: 'IDR',
+                  minimumFractionDigits: 0,
+                  maximumFractionDigits: 0
+                }).format(product.price)}
+              </span>
             </div>
           </div>
         </div>

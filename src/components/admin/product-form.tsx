@@ -32,13 +32,8 @@ export function ProductForm({ product, onSuccess, onCancel }: ProductFormProps) 
     name: product?.name || "",
     description: product?.description || "",
     category: product?.category || "",
-    level: product?.level || "Easy",
     price: product?.price || 0,
-    rating: product?.rating || 4.5,
     customers: product?.customers || 0,
-    details: product?.details || 3,
-    features: product?.features || 12,
-    stock: product?.stock || 100,
     is_digital: product?.is_digital || false,
   });
 
@@ -184,46 +179,27 @@ export function ProductForm({ product, onSuccess, onCancel }: ProductFormProps) 
           />
         </div>
 
-        {/* Category & Level */}
-        <div className="grid grid-cols-2 gap-4">
-          <div>
-            <Label htmlFor="category">Category *</Label>
-            <Select
-              value={formData.category}
-              onValueChange={(value) => setFormData({...formData, category: value})}
-            >
-              <SelectTrigger>
-                <SelectValue placeholder="Select category" />
-              </SelectTrigger>
-              <SelectContent>
-                {categories.map((category) => (
-                  <SelectItem key={category.id} value={category.name}>
-                    {category.name}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          </div>
-
-          <div>
-            <Label htmlFor="level">Level *</Label>
-            <Select
-              value={formData.level}
-              onValueChange={(value) => setFormData({...formData, level: value})}
-            >
-              <SelectTrigger>
-                <SelectValue />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="Easy">Easy</SelectItem>
-                <SelectItem value="Medium">Medium</SelectItem>
-                <SelectItem value="Hard">Hard</SelectItem>
-              </SelectContent>
-            </Select>
-          </div>
+        {/* Category */}
+        <div>
+          <Label htmlFor="category">Category *</Label>
+          <Select
+            value={formData.category}
+            onValueChange={(value) => setFormData({...formData, category: value})}
+          >
+            <SelectTrigger>
+              <SelectValue placeholder="Select category" />
+            </SelectTrigger>
+            <SelectContent>
+              {categories.map((category) => (
+                <SelectItem key={category.id} value={category.name}>
+                  {category.name}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
         </div>
 
-        {/* Price & Rating */}
+        {/* Price & Customers */}
         <div className="grid grid-cols-2 gap-4">
           <div>
             <Label htmlFor="price">Price (IDR) *</Label>
@@ -239,22 +215,6 @@ export function ProductForm({ product, onSuccess, onCancel }: ProductFormProps) 
           </div>
 
           <div>
-            <Label htmlFor="rating">Rating (1-5)</Label>
-            <Input
-              id="rating"
-              type="number"
-              min="1"
-              max="5"
-              step="0.1"
-              value={formData.rating}
-              onChange={(e) => setFormData({...formData, rating: Number(e.target.value)})}
-            />
-          </div>
-        </div>
-
-        {/* Customers, Details, Features */}
-        <div className="grid grid-cols-3 gap-4">
-          <div>
             <Label htmlFor="customers">Customers</Label>
             <Input
               id="customers"
@@ -264,51 +224,16 @@ export function ProductForm({ product, onSuccess, onCancel }: ProductFormProps) 
               onChange={(e) => setFormData({...formData, customers: Number(e.target.value)})}
             />
           </div>
-
-          <div>
-            <Label htmlFor="details">Details</Label>
-            <Input
-              id="details"
-              type="number"
-              min="1"
-              value={formData.details}
-              onChange={(e) => setFormData({...formData, details: Number(e.target.value)})}
-            />
-          </div>
-
-          <div>
-            <Label htmlFor="features">Features</Label>
-            <Input
-              id="features"
-              type="number"
-              min="1"
-              value={formData.features}
-              onChange={(e) => setFormData({...formData, features: Number(e.target.value)})}
-            />
-          </div>
         </div>
 
-        {/* Stock & Digital */}
-        <div className="grid grid-cols-2 gap-4">
-          <div>
-            <Label htmlFor="stock">Stock</Label>
-            <Input
-              id="stock"
-              type="number"
-              min="0"
-              value={formData.stock}
-              onChange={(e) => setFormData({...formData, stock: Number(e.target.value)})}
-            />
-          </div>
-
-          <div className="flex items-center space-x-2 pt-8">
-            <Checkbox
-              id="is_digital"
-              checked={formData.is_digital}
-              onCheckedChange={(checked) => setFormData({...formData, is_digital: !!checked})}
-            />
-            <Label htmlFor="is_digital">Digital Product</Label>
-          </div>
+        {/* Digital Product */}
+        <div className="flex items-center space-x-2">
+          <Checkbox
+            id="is_digital"
+            checked={formData.is_digital}
+            onCheckedChange={(checked) => setFormData({...formData, is_digital: !!checked})}
+          />
+          <Label htmlFor="is_digital">Digital Product</Label>
         </div>
 
         {/* Image Upload */}
