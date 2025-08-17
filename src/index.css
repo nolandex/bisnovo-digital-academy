@@ -6,52 +6,63 @@
 
 @layer base {
   :root {
-    /* Base colors */
-    --background: 0 0% 100%;
-    --foreground: 0 0% 0%;
+    /* New color system matching user specifications */
+    --background: 210 20% 98%; /* #F9FAFB */
+    --foreground: 220 39% 11%; /* #1F2937 */
     
-    /* Bisnovo brand colors */
-    --bisnovo-primary: 220 100% 50%;
-    --bisnovo-primary-foreground: 0 0% 100%;
-    --bisnovo-secondary: 210 40% 96%;
-    --bisnovo-secondary-foreground: 0 0% 0%;
+    /* Card colors */
+    --card: 0 0% 100%; /* #FFFFFF */
+    --card-foreground: 220 39% 11%; /* #1F2937 */
     
-    /* Course level colors */
-    --easy: 120 60% 50%;
+    /* Text colors */
+    --text-primary: 220 39% 11%; /* #1F2937 */
+    --text-secondary: 215 28% 47%; /* #6B7280 */
+    
+    /* Blue accent colors */
+    --blue-primary: 221 83% 53%; /* #2563EB */
+    --blue-light: 213 93% 68%; /* #3B82F6 */
+    
+    /* Yellow star rating */
+    --yellow-star: 32 95% 44%; /* #F59E0B */
+    
+    /* Level badge colors */
+    --easy: 158 64% 52%; /* #10B981 - green */
     --easy-foreground: 0 0% 100%;
-    --medium: 39 100% 50%;
+    --medium: 32 95% 44%; /* #F59E0B - yellow */
     --medium-foreground: 0 0% 100%;
-    --hard: 0 84% 60%;
+    --hard: 0 84% 60%; /* #EF4444 - red */
     --hard-foreground: 0 0% 100%;
 
+    /* Bisnovo brand colors (updated) */
+    --bisnovo-primary: 221 83% 53%; /* #2563EB */
+    --bisnovo-primary-foreground: 0 0% 100%;
+    --bisnovo-secondary: 210 40% 96%;
+    --bisnovo-secondary-foreground: 220 39% 11%;
+
     /* UI colors */
-    --card: 0 0% 100%;
-    --card-foreground: 0 0% 0%;
-    --card-shadow: 0 0% 0% / 0.1;
-
     --popover: 0 0% 100%;
-    --popover-foreground: 0 0% 0%;
+    --popover-foreground: 220 39% 11%;
 
-    --primary: 0 0% 0%;
+    --primary: 221 83% 53%; /* Blue primary */
     --primary-foreground: 0 0% 100%;
 
-    --secondary: 210 40% 96%;
-    --secondary-foreground: 0 0% 0%;
+    --secondary: 220 14% 96%; /* Light gray */
+    --secondary-foreground: 215 28% 47%;
 
-    --muted: 210 40% 96%;
-    --muted-foreground: 215.4 16.3% 46.9%;
+    --muted: 220 14% 96%;
+    --muted-foreground: 215 28% 47%;
 
-    --accent: 39 100% 50%;
+    --accent: 32 95% 44%; /* Yellow */
     --accent-foreground: 0 0% 100%;
 
     --destructive: 0 84% 60%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 0 0% 0%;
+    --border: 220 13% 91%;
+    --input: 220 13% 91%;
+    --ring: 221 83% 53%;
 
-    --radius: 0.75rem;
+    --radius: 0.5rem;
     
     /* Gradients */
     --gradient-hero: linear-gradient(135deg, hsl(220 100% 50%), hsl(260 100% 50%));

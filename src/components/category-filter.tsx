@@ -1,93 +1,66 @@
-import { Button } from "@/components/ui/button";
-import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
-import { cn } from "@/lib/utils";
+import { useEffect, useState } from "react";
+import { supabase } from "@/integrations/supabase/client";
 
-const mainCategories = [
-  'Semua',
-  'Populer',
-  'Web Development',
-  'Digital Marketing',
-  'Design Services',
-  'Lainnya'
-];
-
-const additionalCategories = [
-  'Mobile Apps',
-  'E-Commerce',
-  'Consulting',
-  'Content Creation',
-  'Social Media',
-  'SEO Services',
-  'Photography',
-  'Video Production',
-  'Copywriting',
-  'Virtual Assistant',
-  'Online Tutoring',
-  'Delivery Services',
-  'Health & Wellness',
-  'Food & Beverage',
-  'Fitness Coaching'
-];
+interface Category {
+  id: string;
+  name: string;
+}
 
 interface CategoryFilterProps {
   selectedCategory: string;
   onCategoryChange: (category: string) => void;
-  showAllCategories?: boolean;
-  onToggleCategories?: () => void;
+  showAllCategories: boolean;
+  onToggleCategories: () => void;
 }
 
 export function CategoryFilter({ 
   selectedCategory, 
   onCategoryChange, 
-  showAllCategories = false,
+  showAllCategories, 
   onToggleCategories 
 }: CategoryFilterProps) {
-  const categories = showAllCategories 
-    ? [...mainCategories.slice(0, -1), ...additionalCategories]
-    : mainCategories;
+  const [categories, setCategories] = useState<Category[]>([]);
+
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const { data, error } = await supabase
+          .from('categories')
+          .select('id, name')
+          .order('name');
+
+        if (error) throw error;
+        setCategories(data || []);
+      } catch (error) {
+        console.error('Error fetching categories:', error);
+      }
+    };
+
+    fetchCategories();
+  }, []);
+
+  const defaultCategories = ['Semua', 'Populer'];
+  const allCategories = [...defaultCategories, ...categories.map(cat => cat.name)];
 
   return (
-    <div className="space-y-4">
-      <ScrollArea className="w-full whitespace-nowrap">
-        <div className="flex space-x-2 p-1">
-          {categories.map((category) => (
-            <Button
-              key={category}
-              variant={selectedCategory === category ? "default" : "outline"}
-              size="sm"
-              onClick={() => {
-                if (category === 'Lainnya' && onToggleCategories) {
-                  onToggleCategories();
-                } else {
-                  onCategoryChange(category);
-                }
-              }}
-              className={cn(
-                "whitespace-nowrap transition-all duration-200",
-                selectedCategory === category
-                  ? "bg-bisnovo-primary hover:bg-bisnovo-primary/90 text-bisnovo-primary-foreground shadow-md"
-                  : "hover:bg-bisnovo-secondary hover:text-bisnovo-secondary-foreground"
-              )}
-            >
-              {category}
-            </Button>
-          ))}
-        </div>
-        <ScrollBar orientation="horizontal" />
-      </ScrollArea>
-      
-      {showAllCategories && (
-        <div className="text-center">
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={onToggleCategories}
-            className="hover:bg-bisnovo-secondary"
+    <div className="py-4">
+      <div className="flex overflow-x-auto gap-2 px-4 scrollbar-hide">
+        {allCategories.map((category) => (
+          <button
+            key={category}
+            onClick={() => onCategoryChange(category)}
+            className={`
+              flex-shrink-0 px-4 py-2 rounded-full text-sm font-medium transition-all duration-200
+              ${selectedCategory === category
+                ? 'bg-blue-600 text-white shadow-md'
+                : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
+              }
+            `}
           >
-            Tampilkan Kategori Utama
-          </Button>
-        </div>
-      )}
+            {category}
+          </button>
+        ))}
+      </div>
     </div>
   );
 }

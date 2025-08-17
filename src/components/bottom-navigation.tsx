@@ -1,45 +1,49 @@
-import { Home, BookOpen, User, Search, Menu } from "lucide-react";
+import { Home, BookOpen, User, Settings } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
 import { cn } from "@/lib/utils";
 
 const navItems = [
-  { icon: Home, label: 'Beranda', href: '/' },
-  { icon: Search, label: 'Cari', href: '/search' },
-  { icon: BookOpen, label: 'Course Saya', href: '/my-courses' },
-  { icon: User, label: 'Profil', href: '/profile' },
+  { icon: Home, label: "Home", path: "/" },
+  { icon: BookOpen, label: "Courses", path: "/my-courses" },
+  { icon: User, label: "Profile", path: "/profile" },
+  { icon: Settings, label: "Admin", path: "/admin" },
 ];
 
 export function BottomNavigation() {
   const location = useLocation();
 
   return (
-    <nav className="fixed bottom-0 left-0 right-0 bg-background border-t border-border z-50 md:hidden">
-      <div className="flex items-center justify-around h-16 px-4">
-        {navItems.map((item) => {
-          const Icon = item.icon;
-          const isActive = location.pathname === item.href;
-          
-          return (
-            <Link
-              key={item.href}
-              to={item.href}
-              className={cn(
-                "flex flex-col items-center justify-center space-y-1 text-xs transition-colors min-w-0 flex-1",
-                isActive 
-                  ? "text-bisnovo-primary" 
-                  : "text-muted-foreground hover:text-foreground"
-              )}
-            >
-              <Icon 
-                className={cn(
-                  "h-5 w-5",
-                  isActive && "text-bisnovo-primary"
-                )} 
-              />
-              <span className="truncate">{item.label}</span>
-            </Link>
-          );
-        })}
+    <nav className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 shadow-lg z-50 md:hidden">
+      <div className="max-w-md mx-auto px-4 py-2">
+        <div className="flex justify-around">
+          {navItems.map((item) => {
+            const Icon = item.icon;
+            const isActive = location.pathname === item.path;
+            
+            return (
+              <Link
+                key={item.path}
+                to={item.path}
+                className="flex flex-col items-center gap-1 py-1"
+              >
+                <Icon 
+                  className={cn(
+                    "w-5 h-5 transition-colors",
+                    isActive ? "text-blue-600" : "text-gray-600"
+                  )}
+                />
+                <span 
+                  className={cn(
+                    "text-xs font-medium transition-colors",
+                    isActive ? "text-blue-600" : "text-gray-600"
+                  )}
+                >
+                  {item.label}
+                </span>
+              </Link>
+            );
+          })}
+        </div>
       </div>
     </nav>
   );
