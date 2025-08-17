@@ -37,47 +37,60 @@ export function CourseCard({ course }: CourseCardProps) {
     return `${hours}h`;
   };
 
+  const getLevelBadgeStyle = (level: string) => {
+    switch (level) {
+      case 'Easy':
+        return 'bg-green-100 text-green-700';
+      case 'Medium':
+        return 'bg-yellow-100 text-yellow-700';
+      case 'Hard':
+        return 'bg-red-100 text-red-700';
+      default:
+        return 'bg-gray-100 text-gray-700';
+    }
+  };
+
   return (
-    <Link to={`/courses/${course.id}`} className="block animate-scale-in card-hover card-tap">
-      <div className="bg-card rounded-lg shadow-card hover:shadow-card-hover transition-all duration-300 ease-out overflow-hidden border border-border/50">
-        {/* Modern Image Section */}
-        <div className="relative h-24 overflow-hidden bg-gradient-to-br from-primary/10 to-accent/10">
-          <img
-            src={course.image_url || 'https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=400&h=240&fit=crop'}
-            alt={course.name}
-            className="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/10 to-transparent" />
-          <div className="absolute top-2 right-2">
-            <LevelBadge level={course.level} className="shadow-sm" />
+    <Link to={`/courses/${course.id}`} className="block">
+      <div className="bg-white rounded-lg shadow-md overflow-hidden flex flex-col h-full hover:shadow-lg transition-shadow duration-200">
+        {/* Image Section */}
+        <div className="relative">
+          <div className="w-full h-20 bg-gradient-to-r from-blue-400 to-blue-600">
+            {course.image_url && (
+              <img
+                src={course.image_url}
+                alt={course.name}
+                className="w-full h-full object-cover"
+              />
+            )}
           </div>
+          <span className={`absolute top-1 right-1 text-[0.5rem] px-1.5 py-0.5 rounded-full font-medium ${getLevelBadgeStyle(course.level)}`}>
+            {course.level}
+          </span>
         </div>
         
         {/* Content Section */}
-        <div className="p-3 space-y-2">
-          <h3 className="text-tiny font-semibold line-clamp-2 leading-tight text-card-foreground">
+        <div className="p-2 flex flex-col flex-grow">
+          <h3 className="text-xs font-semibold text-gray-800 line-clamp-2 mb-1 leading-tight">
             {course.name}
           </h3>
-          
-          <p className="text-tiny text-muted-foreground font-medium">
+          <p className="text-[0.6rem] text-gray-600 mb-2 truncate">
             by Bisnovo Expert
           </p>
           
-          {/* Modern Metadata Row */}
-          <div className="flex items-center justify-between pt-1">
-            <div className="flex items-center gap-1">
-              <StarRating rating={course.rating} className="text-tiny" />
+          {/* Metadata Row */}
+          <div className="flex items-center gap-1 text-[0.6rem] mt-auto">
+            <div className="flex items-center gap-0.5">
+              <span className="text-yellow-500">★</span>
+              <span className="text-gray-600">{course.rating}</span>
             </div>
-            
-            <div className="flex items-center gap-3 text-tiny text-muted-foreground">
-              <div className="flex items-center gap-1">
-                <Users className="w-3 h-3" />
-                <span className="font-medium">{formatStudents(course.students)}</span>
-              </div>
-              <div className="flex items-center gap-1">
-                <Clock className="w-3 h-3" />
-                <span className="font-medium">{formatDuration(course.lessons || 12)}</span>
-              </div>
+            <span className="text-gray-400">•</span>
+            <div className="flex items-center gap-0.5">
+              <span className="text-gray-600">{formatStudents(course.students)}</span>
+            </div>
+            <span className="text-gray-400">•</span>
+            <div className="flex items-center gap-0.5">
+              <span className="text-gray-600">{formatDuration(course.lessons || 12)}</span>
             </div>
           </div>
         </div>

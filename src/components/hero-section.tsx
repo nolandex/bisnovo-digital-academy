@@ -2,28 +2,24 @@ import { ArrowRight } from "lucide-react";
 
 export function HeroSection() {
   return (
-    <section className="relative h-44 md:h-60 mx-4 mt-4 rounded-lg overflow-hidden shadow-hero animate-fade-in">
-      {/* Modern gradient background */}
-      <div 
-        className="absolute inset-0"
-        style={{
-          background: 'var(--gradient-hero)'
-        }}
-      />
-      <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent" />
-      
-      {/* Content */}
-      <div className="relative h-full flex items-center justify-center text-center px-6">
-        <div className="text-white max-w-sm mx-auto">
-          <h1 className="text-headline font-heading font-bold leading-tight mb-3 text-shadow-sm">
-            Tingkatkan Skill Digital Anda
-          </h1>
-          <p className="text-small opacity-95 mb-4 leading-relaxed">
-            Belajar dari expert dan raih karir impian di era digital
-          </p>
-          <div className="flex items-center justify-center gap-2 text-tiny font-medium opacity-90">
-            <span>18+ kursus tersedia</span>
-            <ArrowRight className="w-3 h-3" />
+    <section className="relative w-full px-4 py-2 mt-0">
+      <div className="relative w-full h-[180px] md:h-[250px] lg:h-[300px] overflow-hidden rounded-xl shadow-lg">
+        {/* Background gradient */}
+        <div 
+          className="absolute inset-0"
+          style={{
+            background: 'var(--gradient-hero)'
+          }}
+        />
+        {/* Background image dengan gradient overlay */}
+        <div className="absolute inset-0 bg-black bg-opacity-40 flex flex-col items-center justify-center">
+          <div className="text-center text-white mb-4">
+            <h1 className="text-2xl md:text-4xl font-bold mb-2">
+              Mulai Bisnis Digital Anda
+            </h1>
+            <p className="text-sm md:text-lg">
+              Pelajari bisnis jasa digital dari modal minim hingga jutaan rupiah
+            </p>
           </div>
         </div>
       </div>

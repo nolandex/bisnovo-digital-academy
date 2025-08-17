@@ -42,27 +42,44 @@ export function CategoryFilter({
   const defaultCategories = ['Semua', 'Populer'];
   const allCategories = [...defaultCategories, ...categories.map(cat => cat.name)];
 
+  const mainCategories = [
+    { name: 'Populer', icon: '🔥' },
+    { name: 'Web Development', icon: '💻' },
+    { name: 'Digital Marketing', icon: '📈' },
+    { name: 'Design Services', icon: '🎨' },
+    { name: 'Lainnya', icon: '📚' }
+  ];
+
   return (
-    <div className="py-5 animate-slide-up" style={{ animationDelay: '0.2s' }}>
-      <div className="flex overflow-x-auto gap-3 px-4 scrollbar-hide scroll-smooth-horizontal">
-        {allCategories.map((category) => (
-          <button
-            key={category}
-            onClick={() => onCategoryChange(category)}
-            className={`
-              flex-shrink-0 px-5 py-2.5 rounded-full text-small font-medium 
-              transition-all duration-300 ease-out filter-pill btn-press
-              min-h-[44px] flex items-center justify-center
-              ${selectedCategory === category
-                ? 'bg-primary text-primary-foreground shadow-md ring-2 ring-primary/20 scale-105'
-                : 'bg-secondary text-secondary-foreground hover:bg-muted hover:shadow-sm'
-              }
-            `}
-          >
-            {category}
-          </button>
-        ))}
+    <section className="py-4 bg-white">
+      <div className="max-w-6xl mx-auto px-4">
+        <div className="flex justify-between items-start pb-2 w-full">
+          {/* 5 kategori utama dalam 1 baris */}
+          {mainCategories.map((category) => (
+            <button 
+              key={category.name}
+              onClick={() => onCategoryChange(category.name)}
+              className="flex flex-col items-center justify-start flex-1"
+            >
+              <div className={`
+                flex items-center justify-center w-12 h-12 sm:w-14 sm:h-14 rounded-full shadow-md transition-all duration-200
+                ${selectedCategory === category.name 
+                  ? 'bg-primary text-white shadow-lg' 
+                  : 'bg-white text-gray-800'
+                }
+              `}>
+                <span className="text-lg">{category.icon}</span>
+              </div>
+              <span className={`
+                mt-2 text-[0.6rem] sm:text-[0.65rem] font-medium text-center leading-tight px-1
+                ${selectedCategory === category.name ? 'text-primary' : 'text-gray-800'}
+              `}>
+                {category.name}
+              </span>
+            </button>
+          ))}
+        </div>
       </div>
-    </div>
+    </section>
   );
 }

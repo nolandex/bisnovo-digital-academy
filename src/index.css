@@ -6,103 +6,80 @@
 
 @layer base {
   :root {
-    /* Background Colors */
-    --background: 210 40% 98%; /* #F9FAFB */
-    --foreground: 215 25% 27%; /* #1F2937 */
+    /* Primary Colors */
+    --bg-primary: 210 40% 98%;        /* #F9FAFB */
+    --bg-card: 0 0% 100%;            /* #FFFFFF */
+    --text-primary: 215 25% 17%;     /* #1F2937 */
+    --text-secondary: 215 14% 43%;   /* #6B7280 */
 
-    /* Card Colors */
-    --card: 0 0% 100%; /* #FFFFFF */
-    --card-foreground: 215 25% 27%; /* #1F2937 */
+    /* Brand Colors */
+    --blue-primary: 217 91% 60%;     /* #2563EB */
+    --blue-hover: 214 95% 63%;       /* #3B82F6 */
+    --blue-light: 214 100% 97%;      /* #EBF4FF */
 
-    /* Popover Colors */  
-    --popover: 0 0% 100%; /* #FFFFFF */
-    --popover-foreground: 215 25% 27%; /* #1F2937 */
+    /* Status Colors */
+    --green: 160 84% 39%;            /* #10B981 */
+    --yellow: 38 92% 50%;            /* #F59E0B */
+    --red: 0 84% 60%;                /* #EF4444 */
+    --gray-100: 220 14% 96%;         /* #F3F4F6 */
+    --gray-200: 220 13% 91%;         /* #E5E7EB */
 
-    /* Primary Colors (Main brand color) */
-    --primary: 217 91% 60%; /* #2563EB */
-    --primary-foreground: 0 0% 100%; /* White for contrast */
-
-    /* Secondary Colors */
-    --secondary: 210 40% 96%; /* Light gray */
-    --secondary-foreground: 215 25% 27%; /* #1F2937 */
-
-    /* Muted Colors */
-    --muted: 210 40% 96%; /* Light gray */
-    --muted-foreground: 220 9% 46%; /* #6B7280 */
-
-    /* Accent Colors */
-    --accent: 217 91% 60%; /* #2563EB */
-    --accent-foreground: 0 0% 100%; /* White */
-
-    /* Destructive Colors (Error states) */
-    --destructive: 0 84% 60%; /* Red */
-    --destructive-foreground: 0 0% 100%; /* White */
-
-    /* Border Colors */
-    --border: 214 32% 91%; /* Light gray border */
-    --input: 214 32% 91%; /* Input border color */
-
-    /* Ring Colors (Focus states) */
-    --ring: 217 91% 60%; /* #2563EB */
-
-    /* Bisnovo Brand Colors */
-    --bisnovo-primary: 217 91% 60%; /* #2563EB */
-    --bisnovo-secondary: 217 100% 68%; /* #3B82F6 */
-    --bisnovo-accent: 38 92% 50%; /* #F59E0B */
+    /* Semantic Colors */
+    --background: var(--bg-primary);
+    --foreground: var(--text-primary);
+    --card: var(--bg-card);
+    --card-foreground: var(--text-primary);
+    --popover: var(--bg-card);
+    --popover-foreground: var(--text-primary);
+    --primary: var(--blue-primary);
+    --primary-foreground: 0 0% 100%;
+    --secondary: var(--gray-100);
+    --secondary-foreground: var(--text-primary);
+    --muted: var(--gray-100);
+    --muted-foreground: var(--text-secondary);
+    --accent: var(--blue-primary);
+    --accent-foreground: 0 0% 100%;
+    --destructive: var(--red);
+    --destructive-foreground: 0 0% 100%;
+    --border: var(--gray-200);
+    --input: var(--gray-200);
+    --ring: var(--blue-primary);
 
     /* Level Colors */
-    --easy: 158 64% 52%; /* #10B981 */
-    --easy-foreground: 0 0% 100%; /* White */
-    --medium: 38 92% 50%; /* #F59E0B */
-    --medium-foreground: 0 0% 100%; /* White */
-    --hard: 0 84% 60%; /* #EF4444 */
-    --hard-foreground: 0 0% 100%; /* White */
-
-    /* Text Colors (Additional) */
-    --text-primary: 215 25% 27%; /* #1F2937 */
-    --text-secondary: 220 9% 46%; /* #6B7280 */
-    --text-muted: 220 9% 60%; /* Lighter gray for metadata */
-
-    /* Blue Accent Colors */
-    --blue-primary: 217 91% 60%; /* #2563EB */
-    --blue-light: 217 100% 68%; /* #3B82F6 */
-
-    /* Yellow Star Rating */
-    --yellow-star: 38 92% 50%; /* #F59E0B */
+    --easy: var(--green);
+    --easy-foreground: 0 0% 100%;
+    --medium: var(--yellow);
+    --medium-foreground: 0 0% 100%;
+    --hard: var(--red);
+    --hard-foreground: 0 0% 100%;
 
     /* Gradients */
-    --gradient-hero: linear-gradient(135deg, hsl(217 91% 60%) 0%, hsl(258 90% 66%) 100%);
-    --gradient-hero-overlay: linear-gradient(135deg, hsl(217 91% 60% / 0.9) 0%, hsl(258 90% 66% / 0.9) 100%);
-    --gradient-card: linear-gradient(135deg, hsl(0 0% 100%), hsl(210 40% 99%));
+    --gradient-hero: linear-gradient(135deg, hsl(217 91% 60%) 0%, hsl(217 76% 51%) 100%);
 
-    /* Modern Shadows */
-    --shadow-sm: 0 1px 2px 0 hsl(0 0% 0% / 0.05);
-    --shadow-md: 0 4px 6px -1px hsl(0 0% 0% / 0.1), 0 2px 4px -2px hsl(0 0% 0% / 0.1);
-    --shadow-lg: 0 10px 15px -3px hsl(0 0% 0% / 0.1), 0 4px 6px -4px hsl(0 0% 0% / 0.1);
-    --shadow-xl: 0 20px 25px -5px hsl(0 0% 0% / 0.1), 0 8px 10px -6px hsl(0 0% 0% / 0.1);
-    --shadow-card: var(--shadow-sm);
-    --shadow-card-hover: var(--shadow-lg);
-    --shadow-hero: var(--shadow-xl);
+    /* Shadows */
+    --shadow-card: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+    --shadow-card-hover: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+    --shadow-hero: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
 
     /* Typography */
-    --font-heading: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
-    --font-body: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+    --font-heading: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    --font-body: -apple-system, BlinkMacSystemFont, "Segue UI", Roboto, sans-serif;
 
-    /* Modern Radius */
-    --radius: 12px;
-    --radius-sm: 8px;
-    --radius-lg: 16px;
+    /* Radius */
+    --radius: 0.5rem;
+    --radius-sm: 0.375rem;
+    --radius-lg: 0.75rem;
     --radius-full: 9999px;
 
-    /* Sidebar Colors */
-    --sidebar-background: 210 40% 98%; /* #F9FAFB */
-    --sidebar-foreground: 220 9% 46%; /* #6B7280 */
-    --sidebar-primary: 215 25% 27%; /* #1F2937 */
-    --sidebar-primary-foreground: 0 0% 100%; /* White */
-    --sidebar-accent: 210 40% 96%; /* Light gray */
-    --sidebar-accent-foreground: 215 25% 27%; /* #1F2937 */
-    --sidebar-border: 214 32% 91%; /* Light border */
-    --sidebar-ring: 217 91% 60%; /* #2563EB */
+    /* Sidebar */
+    --sidebar-background: var(--bg-primary);
+    --sidebar-foreground: var(--text-primary);
+    --sidebar-primary: var(--text-primary);
+    --sidebar-primary-foreground: var(--bg-card);
+    --sidebar-accent: var(--gray-100);
+    --sidebar-accent-foreground: var(--text-primary);
+    --sidebar-border: var(--gray-200);
+    --sidebar-ring: var(--blue-primary);
   }
 
   .dark {

@@ -78,7 +78,7 @@ export function CourseGrid({ selectedCategory }: CourseGridProps) {
   }
 
   return (
-    <div className="px-4 animate-fade-in" style={{ animationDelay: '0.3s' }}>
+    <section className="px-4 pb-20">
       <div className="grid grid-cols-2 gap-4">
         {filteredCourses.map((course, index) => (
           <div
@@ -90,6 +90,6 @@ export function CourseGrid({ selectedCategory }: CourseGridProps) {
           </div>
         ))}
       </div>
-    </div>
+    </section>
   );
 }
