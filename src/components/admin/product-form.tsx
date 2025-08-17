@@ -7,7 +7,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Checkbox } from "@/components/ui/checkbox";
-import { Upload, X, Plus, Trash2, CheckCircle, ArrowRight } from "lucide-react";
+import { Upload, X } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
 interface Category {
@@ -15,21 +15,6 @@ interface Category {
   name: string;
 }
 
-interface ProductDetail {
-  id?: string;
-  detail_number: number;
-  title: string;
-  description: string;
-}
-
-interface ProductFeature {
-  id?: string;
-  detail_id?: string;
-  feature_number: number;
-  title: string;
-  type: string;
-  quantity: number;
-}
 
 interface ProductFormProps {
   product?: Product | null;
@@ -42,10 +27,6 @@ export function ProductForm({ product, onSuccess, onCancel }: ProductFormProps) 
   const [loading, setLoading] = useState(false);
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [imagePreview, setImagePreview] = useState<string>("");
-  const [qrisFile, setQrisFile] = useState<File | null>(null);
-  const [qrisPreview, setQrisPreview] = useState<string>("");
-  const [details, setDetails] = useState<ProductDetail[]>([]);
-  const [features, setFeatures] = useState<ProductFeature[]>([]);
   const { toast } = useToast();
 
   const [formData, setFormData] = useState({
@@ -54,19 +35,14 @@ export function ProductForm({ product, onSuccess, onCancel }: ProductFormProps) 
     category: product?.category || "",
     price: product?.price || 0,
     is_digital: product?.is_digital || false,
+    features: product?.features_text || "",
+    how_it_works: product?.how_it_works_text || "",
   });
 
   useEffect(() => {
     fetchCategories();
     if (product?.image_url) {
       setImagePreview(product.image_url);
-    }
-    if (product?.qris_image_url) {
-      setQrisPreview(product.qris_image_url);
-    }
-    if (product?.id) {
-      fetchProductDetails();
-      fetchProductFeatures();
     }
   }, [product]);
 
@@ -135,17 +111,6 @@ export function ProductForm({ product, onSuccess, onCancel }: ProductFormProps) 
     }
   };
 
-  const handleQrisChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (file) {
-      setQrisFile(file);
-      const reader = new FileReader();
-      reader.onload = () => {
-        setQrisPreview(reader.result as string);
-      };
-      reader.readAsDataURL(file);
-    }
-  };
 
   const uploadImage = async (file: File): Promise<string> => {
     const fileExt = file.name.split('.').pop();
@@ -165,42 +130,6 @@ export function ProductForm({ product, onSuccess, onCancel }: ProductFormProps) 
     return publicUrl;
   };
 
-  const addDetail = () => {
-    setDetails([...details, {
-      detail_number: details.length + 1,
-      title: "",
-      description: ""
-    }]);
-  };
-
-  const updateDetail = (index: number, field: keyof ProductDetail, value: string | number) => {
-    const updated = [...details];
-    updated[index] = { ...updated[index], [field]: value };
-    setDetails(updated);
-  };
-
-  const removeDetail = (index: number) => {
-    setDetails(details.filter((_, i) => i !== index));
-  };
-
-  const addFeature = () => {
-    setFeatures([...features, {
-      feature_number: features.length + 1,
-      title: "",
-      type: "video",
-      quantity: 1
-    }]);
-  };
-
-  const updateFeature = (index: number, field: keyof ProductFeature, value: string | number) => {
-    const updated = [...features];
-    updated[index] = { ...updated[index], [field]: value };
-    setFeatures(updated);
-  };
-
-  const removeFeature = (index: number) => {
-    setFeatures(features.filter((_, i) => i !== index));
-  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -208,20 +137,14 @@ export function ProductForm({ product, onSuccess, onCancel }: ProductFormProps) 
 
     try {
       let imageUrl = product?.image_url || "";
-      let qrisUrl = product?.qris_image_url || "";
 
       if (imageFile) {
         imageUrl = await uploadImage(imageFile);
       }
 
-      if (qrisFile) {
-        qrisUrl = await uploadImage(qrisFile);
-      }
-
       const productData = {
         ...formData,
         image_url: imageUrl,
-        qris_image_url: qrisUrl,
         updated_at: new Date().toISOString(),
       };
 
@@ -247,47 +170,6 @@ export function ProductForm({ product, onSuccess, onCancel }: ProductFormProps) 
         productId = newProduct.id;
       }
 
-      // Save details
-      if (productId && details.length > 0) {
-        // Delete existing details if updating
-        if (product) {
-          await supabase
-            .from('product_details')
-            .delete()
-            .eq('product_id', productId);
-        }
-
-        // Insert new details
-        const { data: insertedDetails, error: detailsError } = await supabase
-          .from('product_details')
-          .insert(details.map(detail => ({
-            ...detail,
-            product_id: productId
-          })))
-          .select();
-
-        if (detailsError) throw detailsError;
-
-        // Save features
-        if (features.length > 0 && insertedDetails && insertedDetails.length > 0) {
-          // Delete existing features if updating
-          if (product) {
-            await supabase
-              .from('product_features')
-              .delete()
-              .in('detail_id', insertedDetails.map(d => d.id));
-          }
-
-          // Assign features to first detail (simplified approach)
-          const firstDetailId = insertedDetails[0].id;
-          await supabase
-            .from('product_features')
-            .insert(features.map(feature => ({
-              ...feature,
-              detail_id: firstDetailId
-            })));
-        }
-      }
 
       toast({
         title: "Success",
@@ -385,165 +267,67 @@ export function ProductForm({ product, onSuccess, onCancel }: ProductFormProps) 
           </div>
         </div>
 
-        {/* Images */}
-        <div className="grid grid-cols-2 gap-4">
-          <div>
-            <Label>Product Image</Label>
-            <div className="mt-2">
-              {imagePreview ? (
-                <div className="relative inline-block">
-                  <img
-                    src={imagePreview}
-                    alt="Product preview"
-                    className="w-full h-20 object-cover rounded-lg border"
-                  />
-                  <Button
-                    type="button"
-                    variant="destructive"
-                    size="icon"
-                    className="absolute -top-2 -right-2 h-6 w-6"
-                    onClick={() => {
-                      setImageFile(null);
-                      setImagePreview("");
-                    }}
-                  >
-                    <X className="h-3 w-3" />
-                  </Button>
-                </div>
-              ) : (
-                <div className="border-2 border-dashed border-gray-300 rounded-lg p-4 text-center">
-                  <Upload className="h-6 w-6 mx-auto text-gray-400 mb-1" />
-                  <p className="text-xs text-gray-600">Upload image</p>
-                </div>
-              )}
-              <Input
-                type="file"
-                accept="image/*"
-                onChange={handleImageChange}
-                className="mt-2"
-              />
-            </div>
-          </div>
-
-          <div>
-            <Label>QRIS Payment</Label>
-            <div className="mt-2">
-              {qrisPreview ? (
-                <div className="relative inline-block">
-                  <img
-                    src={qrisPreview}
-                    alt="QRIS preview"
-                    className="w-full h-20 object-cover rounded-lg border"
-                  />
-                  <Button
-                    type="button"
-                    variant="destructive"
-                    size="icon"
-                    className="absolute -top-2 -right-2 h-6 w-6"
-                    onClick={() => {
-                      setQrisFile(null);
-                      setQrisPreview("");
-                    }}
-                  >
-                    <X className="h-3 w-3" />
-                  </Button>
-                </div>
-              ) : (
-                <div className="border-2 border-dashed border-gray-300 rounded-lg p-4 text-center">
-                  <Upload className="h-6 w-6 mx-auto text-gray-400 mb-1" />
-                  <p className="text-xs text-gray-600">Upload QRIS</p>
-                </div>
-              )}
-              <Input
-                type="file"
-                accept="image/*"
-                onChange={handleQrisChange}
-                className="mt-2"
-              />
-            </div>
+        {/* Image */}
+        <div>
+          <Label>Product Image</Label>
+          <div className="mt-2">
+            {imagePreview ? (
+              <div className="relative inline-block">
+                <img
+                  src={imagePreview}
+                  alt="Product preview"
+                  className="w-full h-32 object-cover rounded-lg border"
+                />
+                <Button
+                  type="button"
+                  variant="destructive"
+                  size="icon"
+                  className="absolute -top-2 -right-2 h-6 w-6"
+                  onClick={() => {
+                    setImageFile(null);
+                    setImagePreview("");
+                  }}
+                >
+                  <X className="h-3 w-3" />
+                </Button>
+              </div>
+            ) : (
+              <div className="border-2 border-dashed border-gray-300 rounded-lg p-4 text-center">
+                <Upload className="h-6 w-6 mx-auto text-gray-400 mb-1" />
+                <p className="text-xs text-gray-600">Upload image</p>
+              </div>
+            )}
+            <Input
+              type="file"
+              accept="image/*"
+              onChange={handleImageChange}
+              className="mt-2"
+            />
           </div>
         </div>
 
         {/* Yang Anda Dapatkan */}
         <div>
-          <div className="flex items-center justify-between mb-3">
-            <Label className="text-base font-medium">Yang Anda Dapatkan</Label>
-            <Button type="button" onClick={addFeature} size="sm" variant="outline">
-              <Plus className="h-4 w-4 mr-1" />
-              Add
-            </Button>
-          </div>
-          <div className="space-y-2">
-            {features.map((feature, index) => (
-              <div key={index} className="flex items-center gap-2 p-2 border rounded-lg">
-                <CheckCircle className="h-4 w-4 text-green-600 flex-shrink-0" />
-                <Input
-                  placeholder="Feature title"
-                  value={feature.title}
-                  onChange={(e) => updateFeature(index, 'title', e.target.value)}
-                  className="flex-1"
-                />
-                <Input
-                  type="number"
-                  min="1"
-                  value={feature.quantity}
-                  onChange={(e) => updateFeature(index, 'quantity', Number(e.target.value))}
-                  className="w-16"
-                />
-                <Button
-                  type="button"
-                  variant="outline"
-                  size="icon"
-                  onClick={() => removeFeature(index)}
-                >
-                  <Trash2 className="h-4 w-4" />
-                </Button>
-              </div>
-            ))}
-          </div>
+          <Label htmlFor="features">Yang Anda Dapatkan</Label>
+          <Textarea
+            id="features"
+            value={formData.features}
+            onChange={(e) => setFormData({...formData, features: e.target.value})}
+            placeholder="Enter what customers will get (one item per line)"
+            rows={4}
+          />
         </div>
 
         {/* How It Works */}
         <div>
-          <div className="flex items-center justify-between mb-3">
-            <Label className="text-base font-medium">How It Works</Label>
-            <Button type="button" onClick={addDetail} size="sm" variant="outline">
-              <Plus className="h-4 w-4 mr-1" />
-              Add Step
-            </Button>
-          </div>
-          <div className="space-y-2">
-            {details.map((detail, index) => (
-              <div key={index} className="flex items-start gap-2 p-2 border rounded-lg">
-                <div className="flex-shrink-0 w-6 h-6 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center text-sm font-medium mt-1">
-                  {detail.detail_number}
-                </div>
-                <ArrowRight className="h-4 w-4 text-gray-400 mt-2" />
-                <div className="flex-1 space-y-2">
-                  <Input
-                    placeholder="Step title"
-                    value={detail.title}
-                    onChange={(e) => updateDetail(index, 'title', e.target.value)}
-                  />
-                  <Textarea
-                    placeholder="Step description"
-                    value={detail.description}
-                    onChange={(e) => updateDetail(index, 'description', e.target.value)}
-                    rows={2}
-                  />
-                </div>
-                <Button
-                  type="button"
-                  variant="outline"
-                  size="icon"
-                  onClick={() => removeDetail(index)}
-                  className="flex-shrink-0"
-                >
-                  <Trash2 className="h-4 w-4" />
-                </Button>
-              </div>
-            ))}
-          </div>
+          <Label htmlFor="how_it_works">How It Works</Label>
+          <Textarea
+            id="how_it_works"
+            value={formData.how_it_works}
+            onChange={(e) => setFormData({...formData, how_it_works: e.target.value})}
+            placeholder="Enter how it works (one step per line)"
+            rows={4}
+          />
         </div>
       </div>
 

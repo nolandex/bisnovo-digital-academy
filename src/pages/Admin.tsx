@@ -1,13 +1,14 @@
 import { useState, useEffect } from "react";
 import { ProductManager } from "@/components/admin/product-manager";
 import { CategoryManager } from "@/components/admin/category-manager";
+import { PaymentSettings } from "@/components/admin/payment-settings";
 import { AdminLogin } from "@/components/admin/admin-login";
 import { Button } from "@/components/ui/button";
-import { Package, Tags, ArrowLeft, LogOut } from "lucide-react";
+import { Package, Tags, CreditCard, ArrowLeft, LogOut } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useToast } from "@/hooks/use-toast";
 
-type AdminTab = "products" | "categories";
+type AdminTab = "products" | "categories" | "payment";
 
 export default function Admin() {
   const [activeTab, setActiveTab] = useState<AdminTab>("products");
@@ -96,6 +97,19 @@ export default function Admin() {
               <Tags className="h-4 w-4" />
               Categories
             </button>
+            <button
+              onClick={() => setActiveTab("payment")}
+              className={`
+                flex items-center gap-2 px-4 py-2 rounded-t-lg font-medium text-sm transition-colors
+                ${activeTab === "payment" 
+                  ? 'bg-primary text-primary-foreground' 
+                  : 'bg-muted text-muted-foreground hover:bg-muted/80'
+                }
+              `}
+            >
+              <CreditCard className="h-4 w-4" />
+              Payment
+            </button>
           </div>
         </div>
       </header>
@@ -104,6 +118,7 @@ export default function Admin() {
       <main className="p-4">
         {activeTab === "products" && <ProductManager />}
         {activeTab === "categories" && <CategoryManager />}
+        {activeTab === "payment" && <PaymentSettings />}
       </main>
     </div>
   );
