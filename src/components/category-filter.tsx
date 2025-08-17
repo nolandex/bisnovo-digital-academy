@@ -39,15 +39,35 @@ export function CategoryFilter({
     fetchCategories();
   }, []);
 
-  const defaultCategories = ['Semua', 'Populer'];
-  const allCategories = [...defaultCategories, ...categories.map(cat => cat.name)];
+  const getIconForCategory = (categoryName: string) => {
+    const iconMap: { [key: string]: string } = {
+      'Populer': '🔥',
+      'Web Development': '💻',
+      'Digital Marketing': '📈',
+      'Design Services': '🎨',
+      'Mobile Apps': '📱',
+      'E-Commerce': '🛒',
+      'Consulting': '💼',
+      'Content Creation': '✍️',
+      'Social Media': '📲',
+      'SEO Services': '🔍',
+      'Photography': '📸',
+      'Video Production': '🎥',
+      'Copywriting': '📝',
+      'Virtual Assistant': '🤝',
+      'Online Tutoring': '👨‍🏫',
+      'Delivery Services': '🚚',
+      'Health & Wellness': '🏥'
+    };
+    return iconMap[categoryName] || '📚';
+  };
 
   const mainCategories = [
     { name: 'Populer', icon: '🔥' },
-    { name: 'Web Development', icon: '💻' },
-    { name: 'Digital Marketing', icon: '📈' },
-    { name: 'Design Services', icon: '🎨' },
-    { name: 'Lainnya', icon: '📚' }
+    ...categories.slice(0, 4).map(cat => ({ 
+      name: cat.name, 
+      icon: getIconForCategory(cat.name) 
+    }))
   ];
 
   return (

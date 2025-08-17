@@ -15,17 +15,6 @@ const Index = () => {
 
       {/* Main Content */}
       <main className="pb-8">
-        {/* Section Header */}
-        <div className="px-4 py-6 animate-fade-in" style={{ animationDelay: '0.1s' }}>
-          <div className="flex items-center justify-between">
-            <h2 className="text-title font-heading font-bold text-foreground">
-              Jelajahi Course
-            </h2>
-            <div className="text-tiny text-muted-foreground font-medium bg-muted/50 px-3 py-1 rounded-full">
-              18+ course tersedia
-            </div>
-          </div>
-        </div>
         
         {/* Category Filter */}
         <CategoryFilter

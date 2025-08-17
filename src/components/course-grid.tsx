@@ -37,8 +37,7 @@ export function CourseGrid({ selectedCategory }: CourseGridProps) {
     
     if (selectedCategory === 'Populer') {
       return [...courses]
-        .sort((a, b) => (b.rating * b.students) - (a.rating * a.students))
-        .slice(0, 8);
+        .sort((a, b) => (b.rating * b.students) - (a.rating * a.students));
     }
     
     return courses.filter(course => course.category === selectedCategory);
