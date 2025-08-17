@@ -7,6 +7,7 @@ import { Badge } from "@/components/ui/badge";
 import { LevelBadge } from "@/components/ui/level-badge";
 import { supabase } from "@/integrations/supabase/client";
 import { Product } from "@/components/product-card";
+import { QrisPaymentPopup } from "@/components/qris-payment-popup";
 
 interface ProductDetail {
   id: string;
@@ -29,6 +30,7 @@ const ProductDetail = () => {
   const [details, setDetails] = useState<ProductDetail[]>([]);
   const [features, setFeatures] = useState<{ [key: string]: ProductFeature[] }>({});
   const [loading, setLoading] = useState(true);
+  const [showQrisPopup, setShowQrisPopup] = useState(false);
 
   useEffect(() => {
     const fetchProductDetails = async () => {
@@ -205,13 +207,26 @@ const ProductDetail = () => {
 
         {/* CTA Button */}
         <div className="text-center">
-          <Button className="w-full h-12 text-lg" size="lg">
+          <Button 
+            className="w-full h-12 text-lg" 
+            size="lg"
+            onClick={() => setShowQrisPopup(true)}
+          >
             <ShoppingCart className="mr-2 h-5 w-5" />
             Beli Sekarang - {formatPrice(product.price)}
           </Button>
         </div>
 
       </div>
+
+      {/* QRIS Payment Popup */}
+      <QrisPaymentPopup
+        isOpen={showQrisPopup}
+        onClose={() => setShowQrisPopup(false)}
+        qrisImageUrl={product.qris_image_url}
+        productName={product.name}
+        price={product.price}
+      />
     </div>
   );
 };

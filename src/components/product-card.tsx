@@ -11,6 +11,7 @@ export interface Product {
   category: string;
   price: number;
   image_url?: string;
+  qris_image_url?: string;
   is_digital?: boolean;
   created_at?: string;
   updated_at?: string;

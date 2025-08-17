@@ -125,6 +125,7 @@ export type Database = {
           level: string | null
           name: string
           price: number | null
+          qris_image_url: string | null
           rating: number | null
           stock: number | null
           updated_at: string | null
@@ -142,6 +143,7 @@ export type Database = {
           level?: string | null
           name: string
           price?: number | null
+          qris_image_url?: string | null
           rating?: number | null
           stock?: number | null
           updated_at?: string | null
@@ -159,6 +161,7 @@ export type Database = {
           level?: string | null
           name?: string
           price?: number | null
+          qris_image_url?: string | null
           rating?: number | null
           stock?: number | null
           updated_at?: string | null
