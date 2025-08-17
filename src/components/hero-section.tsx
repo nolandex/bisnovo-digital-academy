@@ -1,25 +1,30 @@
-import { Button } from "@/components/ui/button";
-import { ArrowRight, Play, TrendingUp } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 
 export function HeroSection() {
   return (
-    <section className="relative h-45 md:h-62 mx-2 mt-2 rounded-xl overflow-hidden">
+    <section className="relative h-44 md:h-60 mx-4 mt-4 rounded-lg overflow-hidden shadow-hero animate-fade-in">
+      {/* Modern gradient background */}
       <div 
-        className="absolute inset-0 bg-gradient-to-r from-blue-600 to-purple-600"
+        className="absolute inset-0"
         style={{
-          background: 'linear-gradient(135deg, #2563EB, #7C3AED)'
+          background: 'var(--gradient-hero)'
         }}
       />
-      <div className="absolute inset-0 bg-black/40" />
+      <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent" />
       
-      <div className="relative h-full flex items-center justify-center text-center px-4">
-        <div className="text-white">
-          <h1 className="text-2xl md:text-4xl font-bold leading-tight mb-2">
+      {/* Content */}
+      <div className="relative h-full flex items-center justify-center text-center px-6">
+        <div className="text-white max-w-sm mx-auto">
+          <h1 className="text-headline font-heading font-bold leading-tight mb-3 text-shadow-sm">
             Tingkatkan Skill Digital Anda
           </h1>
-          <p className="text-sm md:text-lg opacity-90 max-w-md mx-auto">
+          <p className="text-small opacity-95 mb-4 leading-relaxed">
             Belajar dari expert dan raih karir impian di era digital
           </p>
+          <div className="flex items-center justify-center gap-2 text-tiny font-medium opacity-90">
+            <span>18+ kursus tersedia</span>
+            <ArrowRight className="w-3 h-3" />
+          </div>
         </div>
       </div>
     </section>

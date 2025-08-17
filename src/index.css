@@ -2,7 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Bisnovo Learning Design System - Indonesian Digital Business Platform */
+/* Bisnovo Learning Design System - Modern Mobile-First Platform */
 
 @layer base {
   :root {
@@ -54,13 +54,14 @@
     --easy: 158 64% 52%; /* #10B981 */
     --easy-foreground: 0 0% 100%; /* White */
     --medium: 38 92% 50%; /* #F59E0B */
-    --medium-foreground: 215 25% 27%; /* #1F2937 */
+    --medium-foreground: 0 0% 100%; /* White */
     --hard: 0 84% 60%; /* #EF4444 */
     --hard-foreground: 0 0% 100%; /* White */
 
     /* Text Colors (Additional) */
     --text-primary: 215 25% 27%; /* #1F2937 */
     --text-secondary: 220 9% 46%; /* #6B7280 */
+    --text-muted: 220 9% 60%; /* Lighter gray for metadata */
 
     /* Blue Accent Colors */
     --blue-primary: 217 91% 60%; /* #2563EB */
@@ -70,19 +71,28 @@
     --yellow-star: 38 92% 50%; /* #F59E0B */
 
     /* Gradients */
-    --gradient-hero: linear-gradient(135deg, hsl(217 91% 60% / 0.9), hsl(217 91% 50% / 0.9));
-    --gradient-card: linear-gradient(135deg, hsl(0 0% 100%), hsl(210 40% 98%));
+    --gradient-hero: linear-gradient(135deg, hsl(217 91% 60%) 0%, hsl(258 90% 66%) 100%);
+    --gradient-hero-overlay: linear-gradient(135deg, hsl(217 91% 60% / 0.9) 0%, hsl(258 90% 66% / 0.9) 100%);
+    --gradient-card: linear-gradient(135deg, hsl(0 0% 100%), hsl(210 40% 99%));
 
-    /* Shadows */
-    --shadow-card: 0 1px 3px 0 hsl(0 0% 0% / 0.1), 0 1px 2px -1px hsl(0 0% 0% / 0.1);
-    --shadow-hero: 0 10px 25px -3px hsl(0 0% 0% / 0.1), 0 4px 6px -4px hsl(0 0% 0% / 0.1);
+    /* Modern Shadows */
+    --shadow-sm: 0 1px 2px 0 hsl(0 0% 0% / 0.05);
+    --shadow-md: 0 4px 6px -1px hsl(0 0% 0% / 0.1), 0 2px 4px -2px hsl(0 0% 0% / 0.1);
+    --shadow-lg: 0 10px 15px -3px hsl(0 0% 0% / 0.1), 0 4px 6px -4px hsl(0 0% 0% / 0.1);
+    --shadow-xl: 0 20px 25px -5px hsl(0 0% 0% / 0.1), 0 8px 10px -6px hsl(0 0% 0% / 0.1);
+    --shadow-card: var(--shadow-sm);
+    --shadow-card-hover: var(--shadow-lg);
+    --shadow-hero: var(--shadow-xl);
 
     /* Typography */
-    --font-heading: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Arial', sans-serif;
-    --font-body: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Arial', sans-serif;
+    --font-heading: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+    --font-body: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
 
-    /* Radius */
-    --radius: 0.5rem;
+    /* Modern Radius */
+    --radius: 12px;
+    --radius-sm: 8px;
+    --radius-lg: 16px;
+    --radius-full: 9999px;
 
     /* Sidebar Colors */
     --sidebar-background: 210 40% 98%; /* #F9FAFB */
@@ -153,6 +163,97 @@
   }
 
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground font-[var(--font-body)] antialiased;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  /* Modern card animations */
+  .card-hover {
+    @apply transition-all duration-300 ease-out hover:shadow-[var(--shadow-card-hover)] hover:-translate-y-1;
+  }
+
+  .card-tap {
+    @apply active:scale-95 transition-transform duration-150 ease-out;
+  }
+
+  /* Modern button animations */
+  .btn-press {
+    @apply active:scale-95 transition-transform duration-150 ease-out;
+  }
+
+  /* Filter pill animations */
+  .filter-pill {
+    @apply transition-all duration-300 ease-out hover:scale-105 active:scale-95;
+  }
+
+  /* Smooth scrolling for horizontal filters */
+  .scroll-smooth-horizontal {
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  /* Hide scrollbar but keep functionality */
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* Text gradient for headings */
+  .text-gradient {
+    background: var(--gradient-hero);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  /* Loading skeleton animation */
+  .skeleton {
+    @apply animate-pulse bg-muted rounded-md;
+  }
+}
+
+@layer components {
+  /* Modern typography scale */
+  .text-display {
+    @apply text-3xl md:text-5xl font-bold leading-tight tracking-tight;
+  }
+
+  .text-headline {
+    @apply text-2xl md:text-4xl font-bold leading-tight;
+  }
+
+  .text-title {
+    @apply text-lg md:text-xl font-semibold leading-snug;
+  }
+
+  .text-body {
+    @apply text-base leading-relaxed;
+  }
+
+  .text-small {
+    @apply text-sm leading-normal;
+  }
+
+  .text-tiny {
+    @apply text-xs leading-tight;
+  }
+
+  /* Modern shadows */
+  .shadow-card {
+    box-shadow: var(--shadow-card);
+  }
+
+  .shadow-card-hover {
+    box-shadow: var(--shadow-card-hover);
+  }
+
+  .shadow-hero {
+    box-shadow: var(--shadow-hero);
   }
 }

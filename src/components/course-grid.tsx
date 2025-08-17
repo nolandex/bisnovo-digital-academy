@@ -46,17 +46,31 @@ export function CourseGrid({ selectedCategory }: CourseGridProps) {
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center py-12">
-        <Loader2 className="h-8 w-8 animate-spin text-bisnovo-primary" />
-        <span className="ml-2 text-muted-foreground">Memuat course...</span>
+      <div className="px-4">
+        <div className="grid grid-cols-2 gap-4">
+          {Array.from({ length: 6 }).map((_, index) => (
+            <div key={index} className="bg-card rounded-lg shadow-card overflow-hidden border border-border/50">
+              <div className="h-24 skeleton" />
+              <div className="p-3 space-y-2">
+                <div className="h-4 skeleton w-3/4" />
+                <div className="h-3 skeleton w-1/2" />
+                <div className="flex justify-between pt-1">
+                  <div className="h-3 skeleton w-1/4" />
+                  <div className="h-3 skeleton w-1/3" />
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
       </div>
     );
   }
 
   if (filteredCourses.length === 0) {
     return (
-      <div className="text-center py-12">
-        <p className="text-muted-foreground">
+      <div className="text-center py-16 px-4 animate-fade-in">
+        <div className="text-4xl mb-4">📚</div>
+        <p className="text-muted-foreground text-small">
           Tidak ada course untuk kategori "{selectedCategory}"
         </p>
       </div>
@@ -64,10 +78,18 @@ export function CourseGrid({ selectedCategory }: CourseGridProps) {
   }
 
   return (
-    <div className="grid grid-cols-2 gap-4">
-      {filteredCourses.map((course) => (
-        <CourseCard key={course.id} course={course} />
-      ))}
+    <div className="px-4 animate-fade-in" style={{ animationDelay: '0.3s' }}>
+      <div className="grid grid-cols-2 gap-4">
+        {filteredCourses.map((course, index) => (
+          <div
+            key={course.id}
+            style={{ animationDelay: `${0.1 * index}s` }}
+            className="animate-scale-in"
+          >
+            <CourseCard course={course} />
+          </div>
+        ))}
+      </div>
     </div>
   );
 }

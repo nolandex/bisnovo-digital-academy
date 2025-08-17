@@ -9,20 +9,19 @@ const Index = () => {
   const [showAllCategories, setShowAllCategories] = useState(false);
 
   return (
-    <div className="min-h-screen bg-gray-50 pb-20 md:pb-0">
-
+    <div className="min-h-screen bg-background pb-20 md:pb-0">
       {/* Hero Section */}
       <HeroSection />
 
       {/* Main Content */}
       <main className="pb-8">
         {/* Section Header */}
-        <div className="px-4 py-4">
+        <div className="px-4 py-6 animate-fade-in" style={{ animationDelay: '0.1s' }}>
           <div className="flex items-center justify-between">
-            <h2 className="text-2xl font-bold text-gray-900">
+            <h2 className="text-title font-heading font-bold text-foreground">
               Jelajahi Course
             </h2>
-            <div className="text-sm text-gray-600">
+            <div className="text-tiny text-muted-foreground font-medium bg-muted/50 px-3 py-1 rounded-full">
               18+ course tersedia
             </div>
           </div>
