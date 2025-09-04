@@ -31,7 +31,7 @@ export function ProductCard({ product }: ProductCardProps) {
       <div className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-200">
         {/* Image Section */}
         <div className="relative">
-          <div className="w-full h-48 bg-gradient-to-r from-blue-400 to-blue-600 overflow-hidden">
+          <div className="w-full h-32 bg-gradient-to-r from-blue-400 to-blue-600 overflow-hidden">
             {product.image_url && (
               <img
                 src={product.image_url}
@@ -57,9 +57,14 @@ export function ProductCard({ product }: ProductCardProps) {
           {product.features_text && (
             <div>
               <h4 className="text-xs font-medium text-gray-700 mb-1">Yang Anda Dapatkan:</h4>
-              <p className="text-xs text-gray-600">
-                {product.features_text}
-              </p>
+              <div className="text-xs text-gray-600 space-y-1">
+                {product.features_text.split(',').map((feature, index) => (
+                  <div key={index} className="flex items-start">
+                    <span className="mr-1">•</span>
+                    <span>{feature.trim()}</span>
+                  </div>
+                ))}
+              </div>
             </div>
           )}
         </div>

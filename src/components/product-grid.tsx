@@ -45,7 +45,7 @@ export function ProductGrid({ selectedCategory }: ProductGridProps) {
         <div className="grid grid-cols-2 gap-4">
           {Array.from({ length: 6 }).map((_, index) => (
             <div key={index} className="bg-card rounded-lg shadow-card overflow-hidden border border-border/50">
-              <div className="h-48 skeleton" />
+              <div className="h-32 skeleton" />
               <div className="p-4 space-y-2">
                 <div className="h-4 skeleton w-3/4" />
                 <div className="h-3 skeleton w-1/2" />
