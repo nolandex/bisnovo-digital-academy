@@ -49,7 +49,7 @@ export function ProductCard({ product }: ProductCardProps) {
         
         {/* Content Section */}
         <div className="p-4">
-          <h3 className="text-base font-semibold text-gray-800 mb-2 line-clamp-2">
+          <h3 className="text-sm font-semibold text-gray-800 mb-2 line-clamp-2">
             {product.name}
           </h3>
           
@@ -58,7 +58,7 @@ export function ProductCard({ product }: ProductCardProps) {
             <div>
               <h4 className="text-xs font-medium text-gray-700 mb-1">Yang Anda Dapatkan:</h4>
               <div className="text-xs text-gray-600 space-y-1">
-                {product.features_text.split(',').map((feature, index) => (
+                {product.features_text.split('\n').filter(feature => feature.trim()).map((feature, index) => (
                   <div key={index} className="flex items-start">
                     <span className="mr-1">•</span>
                     <span>{feature.trim()}</span>

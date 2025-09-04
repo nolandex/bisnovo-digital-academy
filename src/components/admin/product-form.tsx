@@ -271,7 +271,7 @@ export function ProductForm({ product, onSuccess, onCancel }: ProductFormProps) 
             id="features"
             value={formData.features}
             onChange={(e) => setFormData({...formData, features: e.target.value})}
-            placeholder="Enter what customers will get (one item per line)"
+            placeholder="Masukkan satu item per baris:&#10;Item 1&#10;Item 2&#10;Item 3"
             rows={4}
           />
         </div>
@@ -283,7 +283,7 @@ export function ProductForm({ product, onSuccess, onCancel }: ProductFormProps) 
             id="how_it_works"
             value={formData.how_it_works}
             onChange={(e) => setFormData({...formData, how_it_works: e.target.value})}
-            placeholder="Enter how it works (one step per line)"
+            placeholder="Masukkan satu langkah per baris:&#10;Langkah 1&#10;Langkah 2&#10;Langkah 3"
             rows={4}
           />
         </div>
