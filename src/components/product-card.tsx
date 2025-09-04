@@ -57,7 +57,7 @@ export function ProductCard({ product }: ProductCardProps) {
           {product.features_text && (
             <div>
               <h4 className="text-xs font-medium text-gray-700 mb-1">Yang Anda Dapatkan:</h4>
-              <p className="text-xs text-gray-600 line-clamp-3">
+              <p className="text-xs text-gray-600">
                 {product.features_text}
               </p>
             </div>
