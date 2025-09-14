@@ -33,7 +33,6 @@ export function ProductForm({ product, onSuccess, onCancel }: ProductFormProps) 
     description: product?.description || "",
     category: product?.category || "",
     price: product?.price || 0,
-    is_digital: product?.is_digital || false,
     features: product?.features_text || "",
     how_it_works: product?.how_it_works_text || "",
   });
@@ -105,7 +104,6 @@ export function ProductForm({ product, onSuccess, onCancel }: ProductFormProps) 
         description: formData.description,
         category: formData.category,
         price: formData.price,
-        is_digital: formData.is_digital,
         features_text: formData.features,
         how_it_works_text: formData.how_it_works,
         image_url: imageUrl,
@@ -215,14 +213,6 @@ export function ProductForm({ product, onSuccess, onCancel }: ProductFormProps) 
             />
           </div>
 
-          <div className="flex items-center space-x-2">
-            <Checkbox
-              id="is_digital"
-              checked={formData.is_digital}
-              onCheckedChange={(checked) => setFormData({...formData, is_digital: !!checked})}
-            />
-            <Label htmlFor="is_digital">Digital Product</Label>
-          </div>
         </div>
 
         {/* Image */}
