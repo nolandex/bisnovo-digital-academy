@@ -28,10 +28,10 @@ export function ProductCard({ product }: ProductCardProps) {
 
   return (
     <Link to={`/products/${product.id}`} className="block">
-      <div className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-200">
+      <div className="bg-white rounded-lg shadow-md overflow-hidden flex flex-col h-full hover:shadow-lg transition-shadow duration-200">
         {/* Image Section */}
         <div className="relative">
-          <div className="w-full h-32 bg-gradient-to-r from-blue-400 to-blue-600 overflow-hidden">
+          <div className="w-full h-20 bg-gradient-to-r from-blue-400 to-blue-600">
             {product.image_url && (
               <img
                 src={product.image_url}
@@ -41,32 +41,32 @@ export function ProductCard({ product }: ProductCardProps) {
             )}
           </div>
           {product.is_digital && (
-            <span className="absolute top-2 right-2 text-xs px-2 py-1 rounded-full font-medium bg-blue-100 text-blue-700">
+            <span className="absolute top-1 right-1 text-[0.5rem] px-1.5 py-0.5 rounded-full font-medium bg-blue-100 text-blue-700">
               Digital
             </span>
           )}
         </div>
         
         {/* Content Section */}
-        <div className="p-4">
-          <h3 className="text-sm font-semibold text-gray-800 mb-2 line-clamp-2">
+        <div className="p-2 flex flex-col flex-grow">
+          <h3 className="text-xs font-semibold text-gray-800 line-clamp-2 mb-1 leading-tight">
             {product.name}
           </h3>
+          <p className="text-[0.6rem] text-gray-600 mb-2 truncate">
+            {product.category}
+          </p>
           
-          {/* Features */}
-          {product.features_text && (
-            <div>
-              <h4 className="text-xs font-medium text-gray-700 mb-1">Yang Anda Dapatkan:</h4>
-              <div className="text-xs text-gray-600 space-y-1">
-                {product.features_text.split('\n').filter(feature => feature.trim()).map((feature, index) => (
-                  <div key={index} className="flex items-start">
-                    <span className="mr-1">•</span>
-                    <span>{feature.trim()}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
-          )}
+          {/* Price Row */}
+          <div className="flex items-center text-[0.6rem] mt-auto">
+            <span className="text-gray-600 font-semibold">
+              {new Intl.NumberFormat('id-ID', {
+                style: 'currency',
+                currency: 'IDR',
+                minimumFractionDigits: 0,
+                maximumFractionDigits: 0
+              }).format(product.price)}
+            </span>
+          </div>
         </div>
       </div>
     </Link>
