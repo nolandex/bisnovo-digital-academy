@@ -35,6 +35,10 @@ export function ProductGrid({ selectedCategory }: ProductGridProps) {
   const filteredProducts = useMemo(() => {
     if (selectedCategory === 'Semua') return products;
     
+    if (selectedCategory === 'Populer') {
+      return [...products]
+        .sort((a, b) => new Date(b.created_at || '').getTime() - new Date(a.created_at || '').getTime());
+    }
     
     return products.filter(product => product.category === selectedCategory);
   }, [products, selectedCategory]);
@@ -42,7 +46,7 @@ export function ProductGrid({ selectedCategory }: ProductGridProps) {
   if (loading) {
     return (
       <div className="px-4">
-        <div className="grid grid-cols-1 gap-6">
+        <div className="grid grid-cols-2 gap-4">
           {Array.from({ length: 6 }).map((_, index) => (
             <div key={index} className="bg-card rounded-lg shadow-card overflow-hidden border border-border/50">
               <div className="h-24 skeleton" />
@@ -74,7 +78,7 @@ export function ProductGrid({ selectedCategory }: ProductGridProps) {
 
   return (
     <section className="px-4 pb-20">
-      <div className="grid grid-cols-1 gap-6">
+      <div className="grid grid-cols-2 gap-4">
         {filteredProducts.map((product, index) => (
           <div
             key={product.id}
