@@ -63,8 +63,7 @@ export function CategoryFilter({
   };
 
   const mainCategories = [
-    { name: 'Populer', icon: '🔥' },
-    ...categories.slice(0, 4).map(cat => ({ 
+    ...categories.slice(0, 5).map(cat => ({ 
       name: cat.name, 
       icon: getIconForCategory(cat.name) 
     }))
