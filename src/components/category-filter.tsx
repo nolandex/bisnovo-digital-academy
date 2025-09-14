@@ -65,15 +65,14 @@ export function CategoryFilter({
 
   const mainCategories = [
     { name: 'Semua', icon: '📚' },
-    { name: 'Populer', icon: '🔥' },
-    ...categories.slice(0, 2).map(cat => ({ 
+    ...categories.slice(0, 3).map(cat => ({ 
       name: cat.name, 
       icon: getIconForCategory(cat.name) 
     })),
     { name: 'Lainnya', icon: '⋯' }
   ];
 
-  const hasMoreCategories = categories.length > 2;
+  const hasMoreCategories = categories.length > 3;
 
   return (
     <section className="py-4 bg-white">
@@ -124,9 +123,9 @@ export function CategoryFilter({
 
         {/* Additional categories when expanded */}
         {showAllCategories && hasMoreCategories && (
-          <div className="mt-4 pt-4 border-t border-gray-200">
+          <div className="mt-4 pt-4">
             <div className="grid grid-cols-4 gap-3">
-              {categories.slice(2).map((category) => (
+              {categories.slice(3).map((category) => (
                 <button 
                   key={category.id}
                   onClick={() => onCategoryChange(category.name)}
