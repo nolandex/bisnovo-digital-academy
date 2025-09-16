@@ -49,29 +49,6 @@ export function CategoryFilter({
     fetchCategories();
   }, []);
 
-  const getIconForCategory = (categoryName: string) => {
-    const iconMap: { [key: string]: any } = {
-      'Business Blueprint': FaIcons.FaBriefcase,
-      'Web Development': FaIcons.FaCode,
-      'Digital Marketing': MdIcons.MdTrendingUp,
-      'Design Services': FaIcons.FaPalette,
-      'Mobile Apps': FaIcons.FaMobile,
-      'E-Commerce': FaIcons.FaShoppingCart,
-      'Consulting': FaIcons.FaUserTie,
-      'Content Creation': FaIcons.FaPen,
-      'Social Media': FaIcons.FaShare,
-      'SEO Services': FaIcons.FaSearch,
-      'Photography': FaIcons.FaCamera,
-      'Video Production': FaIcons.FaVideo,
-      'Copywriting': FaIcons.FaFileAlt,
-      'Virtual Assistant': FaIcons.FaHandshake,
-      'Online Tutoring': FaIcons.FaChalkboardTeacher,
-      'Delivery Services': FaIcons.FaTruck,
-      'Health & Wellness': FaIcons.FaHeartbeat
-    };
-    return iconMap[categoryName] || Star;
-  };
-
   const mappedCategories = useMemo(() =>
     categories.map((cat) => ({
       id: cat.id,
@@ -116,9 +93,9 @@ export function CategoryFilter({
         <button
           onClick={() => handleCategoryClick(category.slug)}
           className={`
-            w-12 h-12 sm:w-14 sm:h-14 rounded-full flex items-center justify-center transition-all duration-200
+            w-12 h-12 sm:w-14 sm:h-14 rounded-full flex items-center justify-center transition-all duration-200 shadow-md hover:shadow-lg
             ${isSelected && !isMoreButton
-              ? "bg-blue-600 text-white" 
+              ? "bg-blue-600 text-white shadow-lg" 
               : "bg-blue-500 text-white hover:bg-blue-600"
             }
           `}
