@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Plus, Edit, Trash2, X } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
@@ -11,6 +12,7 @@ interface Category {
   id: string;
   name: string;
   description?: string;
+  icon?: string;
   created_at: string;
 }
 
@@ -22,6 +24,7 @@ export function CategoryManager() {
   const [formData, setFormData] = useState({
     name: "",
     description: "",
+    icon: "FaStar",
   });
   const { toast } = useToast();
 
@@ -63,6 +66,7 @@ export function CategoryManager() {
           .update({
             name: formData.name,
             description: formData.description,
+            icon: formData.icon,
           })
           .eq('id', editingCategory.id);
 
@@ -78,6 +82,7 @@ export function CategoryManager() {
           .insert([{
             name: formData.name,
             description: formData.description,
+            icon: formData.icon,
           }]);
 
         if (error) throw error;
@@ -89,7 +94,7 @@ export function CategoryManager() {
 
       setIsFormOpen(false);
       setEditingCategory(null);
-      setFormData({ name: "", description: "" });
+      setFormData({ name: "", description: "", icon: "FaStar" });
       fetchCategories();
     } catch (error) {
       console.error('Error saving category:', error);
@@ -134,6 +139,7 @@ export function CategoryManager() {
     setFormData({
       name: category.name,
       description: category.description || "",
+      icon: category.icon || "FaStar",
     });
     setIsFormOpen(true);
   };
@@ -141,7 +147,7 @@ export function CategoryManager() {
   const handleCancel = () => {
     setIsFormOpen(false);
     setEditingCategory(null);
-    setFormData({ name: "", description: "" });
+    setFormData({ name: "", description: "", icon: "FaStar" });
   };
 
   return (
@@ -181,6 +187,35 @@ export function CategoryManager() {
                     onChange={(e) => setFormData({...formData, name: e.target.value})}
                     placeholder="Enter category name"
                   />
+                </div>
+
+                <div>
+                  <Label htmlFor="icon">Icon</Label>
+                  <Select value={formData.icon} onValueChange={(value) => setFormData({...formData, icon: value})}>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Select an icon" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="FaStar">⭐ Star</SelectItem>
+                      <SelectItem value="FaBriefcase">💼 Briefcase</SelectItem>
+                      <SelectItem value="FaCode">💻 Code</SelectItem>
+                      <SelectItem value="FaTrendingUp">📈 Trending Up</SelectItem>
+                      <SelectItem value="FaPalette">🎨 Palette</SelectItem>
+                      <SelectItem value="FaMobile">📱 Mobile</SelectItem>
+                      <SelectItem value="FaShoppingCart">🛒 Shopping Cart</SelectItem>
+                      <SelectItem value="FaUserTie">👔 User Tie</SelectItem>
+                      <SelectItem value="FaPen">✏️ Pen</SelectItem>
+                      <SelectItem value="FaShare">📤 Share</SelectItem>
+                      <SelectItem value="FaSearch">🔍 Search</SelectItem>
+                      <SelectItem value="FaCamera">📷 Camera</SelectItem>
+                      <SelectItem value="FaVideo">🎥 Video</SelectItem>
+                      <SelectItem value="FaFileAlt">📄 File</SelectItem>
+                      <SelectItem value="FaHandshake">🤝 Handshake</SelectItem>
+                      <SelectItem value="FaChalkboardTeacher">👨‍🏫 Teacher</SelectItem>
+                      <SelectItem value="FaTruck">🚚 Truck</SelectItem>
+                      <SelectItem value="FaHeartbeat">❤️ Heartbeat</SelectItem>
+                    </SelectContent>
+                  </Select>
                 </div>
 
                 <div>

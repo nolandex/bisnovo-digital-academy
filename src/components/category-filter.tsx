@@ -36,7 +36,7 @@ export function CategoryFilter({
       try {
         const { data, error } = await supabase
           .from('categories')
-          .select('id, name')
+          .select('id, name, icon')
           .order('name');
 
         if (error) throw error;
@@ -76,7 +76,7 @@ export function CategoryFilter({
     categories.map((cat) => ({
       id: cat.id,
       name: cat.name,
-      icon: getIconForCategory(cat.name),
+      icon: allIcons[cat.icon || 'FaStar'] || Star,
       slug: cat.name,
     })),
     [categories]
@@ -116,10 +116,10 @@ export function CategoryFilter({
         <button
           onClick={() => handleCategoryClick(category.slug)}
           className={`
-            w-12 h-12 sm:w-14 sm:h-14 rounded-full flex items-center justify-center transition-all duration-200 shadow-md hover:shadow-lg
+            w-12 h-12 sm:w-14 sm:h-14 rounded-full flex items-center justify-center transition-all duration-200
             ${isSelected && !isMoreButton
-              ? "bg-blue-600 text-white shadow-lg" 
-              : "bg-blue-600 text-white"
+              ? "bg-blue-600 text-white" 
+              : "bg-blue-500 text-white hover:bg-blue-600"
             }
           `}
         >
