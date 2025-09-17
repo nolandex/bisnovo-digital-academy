@@ -1,49 +1,14 @@
 import { useEffect, useState, useMemo } from "react";
 import { supabase } from "@/integrations/supabase/client";
-import { 
-  Star, 
-  MoreHorizontal, 
-  ChevronUp, 
-  ChevronDown,
-  Briefcase,
-  Code,
-  TrendingUp,
-  Palette,
-  Smartphone,
-  ShoppingCart,
-  User,
-  PenTool,
-  Share,
-  Search,
-  Camera,
-  Video,
-  FileText,
-  Handshake,
-  GraduationCap,
-  Truck,
-  Heart
-} from "lucide-react";
+import { Star, MoreHorizontal, ChevronUp, ChevronDown } from "lucide-react";
+import * as FaIcons from "react-icons/fa";
+import * as MdIcons from "react-icons/md";
+import * as FiIcons from "react-icons/fi";
+import * as HiIcons from "react-icons/hi";
+import * as Io5Icons from "react-icons/io5";
+import * as BiIcons from "react-icons/bi";
 
-const lucideIcons = {
-  Star,
-  Briefcase,
-  Code,
-  TrendingUp,
-  Palette,
-  Smartphone,
-  ShoppingCart,
-  User,
-  PenTool,
-  Share,
-  Search,
-  Camera,
-  Video,
-  FileText,
-  Handshake,
-  GraduationCap,
-  Truck,
-  Heart
-};
+const allIcons = { ...FaIcons, ...MdIcons, ...FiIcons, ...HiIcons, ...Io5Icons, ...BiIcons } as Record<string, any>;
 
 interface Category {
   id: string;
@@ -88,7 +53,7 @@ export function CategoryFilter({
     categories.map((cat) => ({
       id: cat.id,
       name: cat.name,
-      icon: lucideIcons[cat.icon as keyof typeof lucideIcons] || Star,
+      icon: allIcons[cat.icon || 'FaStar'] || Star,
       slug: cat.name,
     })),
     [categories]
@@ -128,10 +93,10 @@ export function CategoryFilter({
         <button
           onClick={() => handleCategoryClick(category.slug)}
           className={`
-            w-12 h-12 sm:w-14 sm:h-14 rounded-full flex items-center justify-center transition-all duration-200 shadow-md hover:shadow-lg border-2
+            w-12 h-12 sm:w-14 sm:h-14 rounded-full flex items-center justify-center transition-all duration-200 shadow-md hover:shadow-lg
             ${isSelected && !isMoreButton
-              ? "bg-blue-600 text-white border-blue-600 shadow-lg" 
-              : "bg-white text-blue-600 border-blue-600 hover:bg-blue-50"
+              ? "bg-blue-600 text-white shadow-lg" 
+              : "bg-blue-500 text-white hover:bg-blue-600"
             }
           `}
         >

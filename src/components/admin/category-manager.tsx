@@ -4,9 +4,8 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
-import { IconPicker } from "@/components/ui/icon-picker";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Plus, Edit, Trash2, X } from "lucide-react";
-import * as LucideIcons from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
 interface Category {
@@ -25,7 +24,7 @@ export function CategoryManager() {
   const [formData, setFormData] = useState({
     name: "",
     description: "",
-    icon: "Star",
+    icon: "FaStar",
   });
   const { toast } = useToast();
 
@@ -95,7 +94,7 @@ export function CategoryManager() {
 
       setIsFormOpen(false);
       setEditingCategory(null);
-      setFormData({ name: "", description: "", icon: "Star" });
+      setFormData({ name: "", description: "", icon: "FaStar" });
       fetchCategories();
     } catch (error) {
       console.error('Error saving category:', error);
@@ -140,7 +139,7 @@ export function CategoryManager() {
     setFormData({
       name: category.name,
       description: category.description || "",
-      icon: category.icon || "Star",
+      icon: category.icon || "FaStar",
     });
     setIsFormOpen(true);
   };
@@ -148,7 +147,7 @@ export function CategoryManager() {
   const handleCancel = () => {
     setIsFormOpen(false);
     setEditingCategory(null);
-    setFormData({ name: "", description: "", icon: "Star" });
+    setFormData({ name: "", description: "", icon: "FaStar" });
   };
 
   return (
@@ -190,10 +189,34 @@ export function CategoryManager() {
                   />
                 </div>
 
-                <IconPicker
-                  value={formData.icon}
-                  onValueChange={(value) => setFormData({...formData, icon: value})}
-                />
+                <div>
+                  <Label htmlFor="icon">Icon</Label>
+                  <Select value={formData.icon} onValueChange={(value) => setFormData({...formData, icon: value})}>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Select an icon" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="FaStar">⭐ Star</SelectItem>
+                      <SelectItem value="FaBriefcase">💼 Briefcase</SelectItem>
+                      <SelectItem value="FaCode">💻 Code</SelectItem>
+                      <SelectItem value="FaTrendingUp">📈 Trending Up</SelectItem>
+                      <SelectItem value="FaPalette">🎨 Palette</SelectItem>
+                      <SelectItem value="FaMobile">📱 Mobile</SelectItem>
+                      <SelectItem value="FaShoppingCart">🛒 Shopping Cart</SelectItem>
+                      <SelectItem value="FaUserTie">👔 User Tie</SelectItem>
+                      <SelectItem value="FaPen">✏️ Pen</SelectItem>
+                      <SelectItem value="FaShare">📤 Share</SelectItem>
+                      <SelectItem value="FaSearch">🔍 Search</SelectItem>
+                      <SelectItem value="FaCamera">📷 Camera</SelectItem>
+                      <SelectItem value="FaVideo">🎥 Video</SelectItem>
+                      <SelectItem value="FaFileAlt">📄 File</SelectItem>
+                      <SelectItem value="FaHandshake">🤝 Handshake</SelectItem>
+                      <SelectItem value="FaChalkboardTeacher">👨‍🏫 Teacher</SelectItem>
+                      <SelectItem value="FaTruck">🚚 Truck</SelectItem>
+                      <SelectItem value="FaHeartbeat">❤️ Heartbeat</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
 
                 <div>
                   <Label htmlFor="description">Description</Label>
@@ -241,19 +264,12 @@ export function CategoryManager() {
               <div key={category.id} className="p-4 hover:bg-gray-50">
                 <div className="flex items-start justify-between">
                   <div className="flex-1">
-                    <div className="flex items-center gap-2 mb-1">
-                      {/* Display category icon */}
-                      {(() => {
-                        const IconComponent = LucideIcons[category.icon as keyof typeof LucideIcons] as React.ComponentType<any>;
-                        return IconComponent ? <IconComponent className="h-5 w-5 text-blue-600" /> : <LucideIcons.Star className="h-5 w-5 text-gray-400" />;
-                      })()}
-                      <h3 className="font-semibold text-gray-900">{category.name}</h3>
-                    </div>
+                    <h3 className="font-semibold text-gray-900 mb-1">{category.name}</h3>
                     {category.description && (
                       <p className="text-sm text-gray-600 mb-2">{category.description}</p>
                     )}
                     <p className="text-xs text-gray-500">
-                      Icon: {category.icon || 'No icon'} | Created: {new Date(category.created_at).toLocaleDateString()}
+                      Created: {new Date(category.created_at).toLocaleDateString()}
                     </p>
                   </div>
                   <div className="flex gap-2 ml-4">
