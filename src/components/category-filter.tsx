@@ -100,7 +100,7 @@ export function CategoryFilter({
             w-12 h-12 sm:w-14 sm:h-14 rounded-full flex items-center justify-center transition-all duration-200
             ${isSelected && !isMoreButton
               ? "bg-blue-600 text-white shadow-[0_4px_12px_rgba(0,0,0,0.25)]"
-              : "bg-white text-blue-600 border border-gray-200 hover:bg-gray-50 shadow-[0_3px_10px_rgba(0,0,0,0.15)]"
+              : "bg-white text-blue-600 hover:bg-gray-50 shadow-[0_3px_10px_rgba(0,0,0,0.15)]"
             }
           `}
         >
