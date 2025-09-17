@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { IconPicker } from "@/components/ui/icon-picker";
 import { Plus, Edit, Trash2, X } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
@@ -24,7 +24,7 @@ export function CategoryManager() {
   const [formData, setFormData] = useState({
     name: "",
     description: "",
-    icon: "FaStar",
+    icon: "Star",
   });
   const { toast } = useToast();
 
@@ -94,7 +94,7 @@ export function CategoryManager() {
 
       setIsFormOpen(false);
       setEditingCategory(null);
-      setFormData({ name: "", description: "", icon: "FaStar" });
+      setFormData({ name: "", description: "", icon: "Star" });
       fetchCategories();
     } catch (error) {
       console.error('Error saving category:', error);
@@ -139,7 +139,7 @@ export function CategoryManager() {
     setFormData({
       name: category.name,
       description: category.description || "",
-      icon: category.icon || "FaStar",
+      icon: category.icon || "Star",
     });
     setIsFormOpen(true);
   };
@@ -147,7 +147,7 @@ export function CategoryManager() {
   const handleCancel = () => {
     setIsFormOpen(false);
     setEditingCategory(null);
-    setFormData({ name: "", description: "", icon: "FaStar" });
+    setFormData({ name: "", description: "", icon: "Star" });
   };
 
   return (
@@ -189,34 +189,10 @@ export function CategoryManager() {
                   />
                 </div>
 
-                <div>
-                  <Label htmlFor="icon">Icon</Label>
-                  <Select value={formData.icon} onValueChange={(value) => setFormData({...formData, icon: value})}>
-                    <SelectTrigger>
-                      <SelectValue placeholder="Select an icon" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="FaStar">⭐ Star</SelectItem>
-                      <SelectItem value="FaBriefcase">💼 Briefcase</SelectItem>
-                      <SelectItem value="FaCode">💻 Code</SelectItem>
-                      <SelectItem value="FaTrendingUp">📈 Trending Up</SelectItem>
-                      <SelectItem value="FaPalette">🎨 Palette</SelectItem>
-                      <SelectItem value="FaMobile">📱 Mobile</SelectItem>
-                      <SelectItem value="FaShoppingCart">🛒 Shopping Cart</SelectItem>
-                      <SelectItem value="FaUserTie">👔 User Tie</SelectItem>
-                      <SelectItem value="FaPen">✏️ Pen</SelectItem>
-                      <SelectItem value="FaShare">📤 Share</SelectItem>
-                      <SelectItem value="FaSearch">🔍 Search</SelectItem>
-                      <SelectItem value="FaCamera">📷 Camera</SelectItem>
-                      <SelectItem value="FaVideo">🎥 Video</SelectItem>
-                      <SelectItem value="FaFileAlt">📄 File</SelectItem>
-                      <SelectItem value="FaHandshake">🤝 Handshake</SelectItem>
-                      <SelectItem value="FaChalkboardTeacher">👨‍🏫 Teacher</SelectItem>
-                      <SelectItem value="FaTruck">🚚 Truck</SelectItem>
-                      <SelectItem value="FaHeartbeat">❤️ Heartbeat</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
+                <IconPicker
+                  value={formData.icon}
+                  onValueChange={(value) => setFormData({...formData, icon: value})}
+                />
 
                 <div>
                   <Label htmlFor="description">Description</Label>
