@@ -6,6 +6,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { IconPicker } from "@/components/ui/icon-picker";
 import { Plus, Edit, Trash2, X } from "lucide-react";
+import * as LucideIcons from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
 interface Category {
@@ -243,8 +244,8 @@ export function CategoryManager() {
                     <div className="flex items-center gap-2 mb-1">
                       {/* Display category icon */}
                       {(() => {
-                        const IconComponent = require('lucide-react')[category.icon || 'Star'];
-                        return IconComponent ? <IconComponent className="h-5 w-5 text-blue-600" /> : null;
+                        const IconComponent = LucideIcons[category.icon as keyof typeof LucideIcons] as React.ComponentType<any>;
+                        return IconComponent ? <IconComponent className="h-5 w-5 text-blue-600" /> : <LucideIcons.Star className="h-5 w-5 text-gray-400" />;
                       })()}
                       <h3 className="font-semibold text-gray-900">{category.name}</h3>
                     </div>
