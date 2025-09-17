@@ -240,12 +240,19 @@ export function CategoryManager() {
               <div key={category.id} className="p-4 hover:bg-gray-50">
                 <div className="flex items-start justify-between">
                   <div className="flex-1">
-                    <h3 className="font-semibold text-gray-900 mb-1">{category.name}</h3>
+                    <div className="flex items-center gap-2 mb-1">
+                      {/* Display category icon */}
+                      {(() => {
+                        const IconComponent = require('lucide-react')[category.icon || 'Star'];
+                        return IconComponent ? <IconComponent className="h-5 w-5 text-blue-600" /> : null;
+                      })()}
+                      <h3 className="font-semibold text-gray-900">{category.name}</h3>
+                    </div>
                     {category.description && (
                       <p className="text-sm text-gray-600 mb-2">{category.description}</p>
                     )}
                     <p className="text-xs text-gray-500">
-                      Created: {new Date(category.created_at).toLocaleDateString()}
+                      Icon: {category.icon || 'No icon'} | Created: {new Date(category.created_at).toLocaleDateString()}
                     </p>
                   </div>
                   <div className="flex gap-2 ml-4">
