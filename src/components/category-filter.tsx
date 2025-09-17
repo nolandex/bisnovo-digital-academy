@@ -35,27 +35,28 @@ export function CategoryFilter({
     const fetchCategories = async () => {
       try {
         const { data, error } = await supabase
-          .from('categories')
-          .select('id, name, icon')
-          .order('name');
+          .from("categories")
+          .select("id, name, icon")
+          .order("name");
 
         if (error) throw error;
         setCategories(data || []);
       } catch (error) {
-        console.error('Error fetching categories:', error);
+        console.error("Error fetching categories:", error);
       }
     };
 
     fetchCategories();
   }, []);
 
-  const mappedCategories = useMemo(() =>
-    categories.map((cat) => ({
-      id: cat.id,
-      name: cat.name,
-      icon: allIcons[cat.icon || 'FaStar'] || Star,
-      slug: cat.name,
-    })),
+  const mappedCategories = useMemo(
+    () =>
+      categories.map((cat) => ({
+        id: cat.id,
+        name: cat.name,
+        icon: allIcons[cat.icon || "FaStar"] || Star,
+        slug: cat.name,
+      })),
     [categories]
   );
 
@@ -68,8 +69,8 @@ export function CategoryFilter({
     ];
   }, [mappedCategories]);
 
-  const additionalCategories = useMemo(() =>
-    mappedCategories.slice(3),
+  const additionalCategories = useMemo(
+    () => mappedCategories.slice(3),
     [mappedCategories]
   );
 
@@ -89,31 +90,34 @@ export function CategoryFilter({
     const isMoreButton = category.slug === "more";
 
     return (
-      <div key={category.id || category.slug} className="flex flex-col items-center">
+      <div
+        key={category.id || category.slug}
+        className="flex flex-col items-center"
+      >
         <button
           onClick={() => handleCategoryClick(category.slug)}
           className={`
-            w-12 h-12 sm:w-14 sm:h-14 rounded-full flex items-center justify-center transition-all duration-200 shadow-md hover:shadow-lg
+            w-14 h-14 sm:w-16 sm:h-16 rounded-full flex items-center justify-center transition-all duration-200
             ${isSelected && !isMoreButton
-              ? "bg-blue-600 text-white shadow-lg" 
-              : "bg-blue-500 text-white hover:bg-blue-600"
+              ? "bg-blue-600 text-white shadow-md"
+              : "bg-white text-blue-600 border border-gray-200 hover:bg-gray-50 shadow-sm"
             }
           `}
         >
           {isMoreButton ? (
             <div className="flex items-center">
-              <MoreHorizontal className="w-5 h-5 mr-1" />
+              <MoreHorizontal className="w-5 h-5" />
               {showAllCategories ? (
-                <ChevronUp className="w-3 h-3" />
+                <ChevronUp className="w-3 h-3 ml-1" />
               ) : (
-                <ChevronDown className="w-3 h-3" />
+                <ChevronDown className="w-3 h-3 ml-1" />
               )}
             </div>
           ) : (
-            IconComponent && <IconComponent className="w-5 h-5" />
+            IconComponent && <IconComponent className="w-6 h-6" />
           )}
         </button>
-        <span className="mt-2 text-[0.6rem] sm:text-[0.65rem] font-medium text-center leading-tight px-1 text-gray-800">
+        <span className="mt-2 text-[0.65rem] sm:text-sm font-medium text-center leading-tight px-1 text-gray-800">
           {category.name}
         </span>
       </div>
@@ -123,12 +127,12 @@ export function CategoryFilter({
   return (
     <section className="py-4 bg-white">
       <div className="max-w-6xl mx-auto px-4">
-        {/* Main Categories Row */}
-        <div className="grid grid-cols-5 gap-2 mb-4">
+        {/* Main Categories Row (5 kolom fix seperti contoh) */}
+        <div className="grid grid-cols-5 gap-3 mb-4">
           {mainCategories.map(renderCategoryButton)}
         </div>
 
-        {/* Additional Categories (shown when "Lainnya" is clicked) */}
+        {/* Additional Categories */}
         {showAllCategories && hasMoreCategories && (
           <div className="grid grid-cols-4 gap-3 mt-4 pt-4 border-t border-gray-100">
             {additionalCategories.map(renderCategoryButton)}
