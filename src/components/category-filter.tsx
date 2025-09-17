@@ -97,10 +97,10 @@ export function CategoryFilter({
         <button
           onClick={() => handleCategoryClick(category.slug)}
           className={`
-            w-14 h-14 sm:w-16 sm:h-16 rounded-full flex items-center justify-center transition-all duration-200
+            w-12 h-12 sm:w-14 sm:h-14 rounded-full flex items-center justify-center transition-all duration-200
             ${isSelected && !isMoreButton
-              ? "bg-blue-600 text-white shadow-md"
-              : "bg-white text-blue-600 border border-gray-200 hover:bg-gray-50 shadow-sm"
+              ? "bg-blue-600 text-white shadow-[0_4px_12px_rgba(0,0,0,0.25)]"
+              : "bg-white text-blue-600 border border-gray-200 hover:bg-gray-50 shadow-[0_3px_10px_rgba(0,0,0,0.15)]"
             }
           `}
         >
@@ -114,10 +114,10 @@ export function CategoryFilter({
               )}
             </div>
           ) : (
-            IconComponent && <IconComponent className="w-6 h-6" />
+            IconComponent && <IconComponent className="w-5 h-5" />
           )}
         </button>
-        <span className="mt-2 text-[0.65rem] sm:text-sm font-medium text-center leading-tight px-1 text-gray-800">
+        <span className="mt-2 text-[0.6rem] sm:text-[0.7rem] font-medium text-center leading-tight px-1 text-gray-800">
           {category.name}
         </span>
       </div>
