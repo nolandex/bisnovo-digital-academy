@@ -3,6 +3,7 @@ import { HeroSection } from "@/components/hero-section";
 import { CategoryFilter } from "@/components/category-filter";
 import { ProductGrid } from "@/components/product-grid";
 import { BottomNavigation } from "@/components/bottom-navigation";
+import { Footer } from "@/components/footer";
 
 const Index = () => {
   const [selectedCategory, setSelectedCategory] = useState('Semua');
@@ -27,6 +28,9 @@ const Index = () => {
         {/* Product Grid */}
         <ProductGrid selectedCategory={selectedCategory} />
       </main>
+
+      {/* Footer */}
+      <Footer />
 
       {/* Bottom Navigation (Mobile Only) */}
       <BottomNavigation />

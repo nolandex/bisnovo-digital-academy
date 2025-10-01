@@ -1,18 +1,17 @@
 import { useState, useEffect } from "react";
-import { useParams, Link } from "react-router-dom";
+import { useParams, Link, useNavigate } from "react-router-dom";
 import { ArrowLeft, CheckCircle, ShoppingCart } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { supabase } from "@/integrations/supabase/client";
 import { Product } from "@/components/product-card";
-import { QrisPaymentPopup } from "@/components/qris-payment-popup";
 
 
 const ProductDetail = () => {
   const { id } = useParams();
+  const navigate = useNavigate();
   const [product, setProduct] = useState<Product | null>(null);
   const [loading, setLoading] = useState(true);
-  const [showQrisPopup, setShowQrisPopup] = useState(false);
 
   useEffect(() => {
     const fetchProductDetails = async () => {
@@ -162,7 +161,7 @@ const ProductDetail = () => {
           <Button 
             className="w-full h-12 text-lg" 
             size="lg"
-            onClick={() => setShowQrisPopup(true)}
+            onClick={() => navigate(`/checkout/${id}`)}
           >
             <ShoppingCart className="mr-2 h-5 w-5" />
             Beli Sekarang - {formatPrice(product.price)}
@@ -170,15 +169,6 @@ const ProductDetail = () => {
         </div>
 
       </div>
-
-      {/* QRIS Payment Popup */}
-      <QrisPaymentPopup
-        isOpen={showQrisPopup}
-        onClose={() => setShowQrisPopup(false)}
-        qrisImageUrl={product.qris_image_url}
-        productName={product.name}
-        price={product.price}
-      />
     </div>
   );
 };
