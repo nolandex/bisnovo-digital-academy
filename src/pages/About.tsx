@@ -1,5 +1,8 @@
 import { BottomNavigation } from "@/components/bottom-navigation";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Link } from "react-router-dom";
+import { FileText, ShieldCheck } from "lucide-react";
 
 const About = () => {
   return (
@@ -201,6 +204,30 @@ const About = () => {
                 <p className="text-xs text-muted-foreground mt-2">
                   Terakhir diperbarui: 15 September 2025
                 </p>
+              </div>
+            </CardContent>
+          </Card>
+
+          <Card className="mt-12">
+            <CardHeader>
+              <CardTitle className="text-2xl text-center">Kebijakan & Bantuan</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="grid md:grid-cols-2 gap-4">
+                <Link to="/terms-conditions">
+                  <Button variant="outline" className="w-full h-auto py-6 flex flex-col items-center gap-2">
+                    <FileText className="h-8 w-8" />
+                    <span className="font-semibold">Syarat & Ketentuan</span>
+                    <span className="text-xs text-muted-foreground">Baca ketentuan lengkap</span>
+                  </Button>
+                </Link>
+                <Link to="/refund-policy">
+                  <Button variant="outline" className="w-full h-auto py-6 flex flex-col items-center gap-2">
+                    <ShieldCheck className="h-8 w-8" />
+                    <span className="font-semibold">Kebijakan Pengembalian Dana</span>
+                    <span className="text-xs text-muted-foreground">Pelajari kebijakan refund</span>
+                  </Button>
+                </Link>
               </div>
             </CardContent>
           </Card>
