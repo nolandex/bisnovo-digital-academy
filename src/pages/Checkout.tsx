@@ -9,17 +9,42 @@ import { supabase } from "@/integrations/supabase/client";
 import { Product } from "@/components/product-card";
 import { useToast } from "@/hooks/use-toast";
 
+// Declare snap for Midtrans
+declare global {
+  interface Window {
+    snap: any;
+  }
+}
+
 const Checkout = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const { toast } = useToast();
   const [product, setProduct] = useState<Product | null>(null);
   const [loading, setLoading] = useState(true);
+  const [processing, setProcessing] = useState(false);
   const [formData, setFormData] = useState({
     name: "",
     email: "",
     phone: "",
   });
+
+  // Load Midtrans Snap script
+  useEffect(() => {
+    const snapScript = "https://app.sandbox.midtrans.com/snap/snap.js";
+    const clientKey = "SB-Mid-client-2Jja2G7bzxSbRvmC";
+
+    const script = document.createElement("script");
+    script.src = snapScript;
+    script.setAttribute("data-client-key", clientKey);
+    script.async = true;
+
+    document.body.appendChild(script);
+
+    return () => {
+      document.body.removeChild(script);
+    };
+  }, []);
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -57,7 +82,7 @@ const Checkout = () => {
     }).format(price);
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
     if (!formData.name || !formData.email || !formData.phone) {
@@ -69,16 +94,80 @@ const Checkout = () => {
       return;
     }
 
-    // Here you would typically process the payment
-    toast({
-      title: "Pembayaran diproses",
-      description: "Anda akan dihubungi untuk instruksi pembayaran",
-    });
-    
-    // Navigate to success page or show QRIS
-    setTimeout(() => {
-      navigate('/');
-    }, 2000);
+    if (!product) return;
+
+    setProcessing(true);
+
+    try {
+      // Generate unique order ID
+      const orderId = `ORDER-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
+
+      // Call edge function to create Midtrans token
+      const { data, error } = await supabase.functions.invoke('create-midtrans-token', {
+        body: {
+          orderId,
+          productName: product.name,
+          price: product.price,
+          quantity: 1,
+          customerDetails: {
+            firstName: formData.name,
+            email: formData.email,
+            phone: formData.phone,
+          },
+        },
+      });
+
+      if (error) throw error;
+
+      console.log('Token received:', data);
+
+      // Open Midtrans Snap payment popup
+      if (window.snap) {
+        window.snap.pay(data.token, {
+          onSuccess: function(result: any) {
+            console.log('Payment success:', result);
+            toast({
+              title: "Pembayaran Berhasil!",
+              description: "Terima kasih atas pembelian Anda",
+            });
+            setTimeout(() => navigate('/'), 2000);
+          },
+          onPending: function(result: any) {
+            console.log('Payment pending:', result);
+            toast({
+              title: "Pembayaran Pending",
+              description: "Silakan selesaikan pembayaran Anda",
+            });
+          },
+          onError: function(result: any) {
+            console.error('Payment error:', result);
+            toast({
+              title: "Pembayaran Gagal",
+              description: "Terjadi kesalahan saat memproses pembayaran",
+              variant: "destructive",
+            });
+          },
+          onClose: function() {
+            console.log('Payment popup closed');
+            toast({
+              title: "Pembayaran Dibatalkan",
+              description: "Anda menutup halaman pembayaran",
+            });
+          }
+        });
+      } else {
+        throw new Error('Midtrans Snap not loaded');
+      }
+    } catch (error) {
+      console.error('Error creating payment:', error);
+      toast({
+        title: "Error",
+        description: error instanceof Error ? error.message : "Gagal memproses pembayaran",
+        variant: "destructive",
+      });
+    } finally {
+      setProcessing(false);
+    }
   };
 
   if (loading) {
@@ -191,8 +280,8 @@ const Checkout = () => {
                   />
                 </div>
 
-                <Button type="submit" className="w-full" size="lg">
-                  Bayar Sekarang
+                <Button type="submit" className="w-full" size="lg" disabled={processing}>
+                  {processing ? "Memproses..." : "Bayar Sekarang"}
                 </Button>
               </form>
             </CardContent>
