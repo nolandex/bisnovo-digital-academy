@@ -35,9 +35,6 @@ serve(async (req) => {
       throw new Error('Midtrans server key not configured');
     }
 
-    console.log('Using server key (first 10 chars):', serverKey.substring(0, 10));
-    console.log('Calling Midtrans API URL: https://app.midtrans.com/snap/v1/transactions');
-
     // Prepare transaction parameter for Midtrans
     const parameter: any = {
       transaction_details: {
@@ -74,7 +71,7 @@ serve(async (req) => {
     console.log('Midtrans parameter:', parameter);
 
     // Call Midtrans API to create transaction token
-    const midtransResponse = await fetch('https://app.midtrans.com/snap/v1/transactions', {
+    const midtransResponse = await fetch('https://app.sandbox.midtrans.com/snap/v1/transactions', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
