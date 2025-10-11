@@ -71,7 +71,7 @@ serve(async (req) => {
     console.log('Midtrans parameter:', parameter);
 
     // Call Midtrans API to create transaction token
-    const midtransResponse = await fetch('https://app.sandbox.midtrans.com/snap/v1/transactions', {
+    const midtransResponse = await fetch('https://app.midtrans.com/snap/v1/transactions', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
