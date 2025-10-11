@@ -31,8 +31,8 @@ const Checkout = () => {
 
   // Load Midtrans Snap script
   useEffect(() => {
-    const snapScript = "https://app.sandbox.midtrans.com/snap/snap.js";
-    const clientKey = "SB-Mid-client-2Jja2G7bzxSbRvmC";
+    const snapScript = "https://app.midtrans.com/snap/snap.js";
+    const clientKey = "Mid-client-gJPon_f121sb7gOu";
 
     const script = document.createElement("script");
     script.src = snapScript;
