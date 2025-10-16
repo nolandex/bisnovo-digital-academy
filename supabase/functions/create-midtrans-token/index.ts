@@ -12,7 +12,7 @@ serve(async (req) => {
   }
 
   try {
-    const { orderId, productName, price, quantity, customerDetails, productUrl } = await req.json();
+    const { orderId, productName, price, quantity, customerDetails } = await req.json();
 
     console.log('Received data:', {
       orderId,
@@ -50,8 +50,6 @@ serve(async (req) => {
           price: price,
           quantity: quantity,
           name: productName,
-          category: "Digital Product",
-          url: productUrl || "https://kodebisnis.com",
         },
       ],
       credit_card: {
@@ -70,18 +68,6 @@ serve(async (req) => {
       }
       if (customerDetails?.phone?.trim()) {
         parameter.customer_details.phone = customerDetails.phone.trim();
-      }
-      
-      // Add shipping address for Kredivo support
-      if (customerDetails?.address?.trim()) {
-        parameter.customer_details.shipping_address = {
-          first_name: customerDetails.firstName?.trim() || "",
-          phone: customerDetails.phone?.trim() || "",
-          address: customerDetails.address?.trim() || "",
-          city: customerDetails.city?.trim() || "",
-          postal_code: customerDetails.postalCode?.trim() || "",
-          country_code: "IDN"
-        };
       }
     }
 

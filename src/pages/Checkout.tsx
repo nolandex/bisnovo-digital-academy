@@ -27,9 +27,6 @@ const Checkout = () => {
     name: "",
     email: "",
     phone: "",
-    address: "",
-    city: "",
-    postalCode: "",
   });
 
   // Load Midtrans Snap script
@@ -88,7 +85,7 @@ const Checkout = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
-    if (!formData.name || !formData.email || !formData.phone || !formData.address || !formData.city || !formData.postalCode) {
+    if (!formData.name || !formData.email || !formData.phone) {
       toast({
         title: "Form tidak lengkap",
         description: "Mohon lengkapi semua field",
@@ -112,14 +109,10 @@ const Checkout = () => {
           productName: product.name,
           price: product.price,
           quantity: 1,
-          productUrl: window.location.origin + '/products/' + product.id,
           customerDetails: {
             firstName: formData.name,
             email: formData.email,
             phone: formData.phone,
-            address: formData.address,
-            city: formData.city,
-            postalCode: formData.postalCode,
           },
         },
       });
@@ -285,41 +278,6 @@ const Checkout = () => {
                     onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
                     required
                   />
-                </div>
-
-                <div className="space-y-2">
-                  <Label htmlFor="address">Alamat Lengkap</Label>
-                  <Input
-                    id="address"
-                    placeholder="Jl. Contoh No. 123"
-                    value={formData.address}
-                    onChange={(e) => setFormData({ ...formData, address: e.target.value })}
-                    required
-                  />
-                </div>
-
-                <div className="grid grid-cols-2 gap-4">
-                  <div className="space-y-2">
-                    <Label htmlFor="city">Kota</Label>
-                    <Input
-                      id="city"
-                      placeholder="Jakarta"
-                      value={formData.city}
-                      onChange={(e) => setFormData({ ...formData, city: e.target.value })}
-                      required
-                    />
-                  </div>
-
-                  <div className="space-y-2">
-                    <Label htmlFor="postalCode">Kode Pos</Label>
-                    <Input
-                      id="postalCode"
-                      placeholder="12345"
-                      value={formData.postalCode}
-                      onChange={(e) => setFormData({ ...formData, postalCode: e.target.value })}
-                      required
-                    />
-                  </div>
                 </div>
 
                 <Button type="submit" className="w-full" size="lg" disabled={processing}>
